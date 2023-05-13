@@ -9,6 +9,7 @@ import TextMuted from '@/components/common/Text/TextMuted';
 import TextNormal from '@/components/common/Text/TextNormal';
 import ModalProposalDetail from '@/components/pageComponents/client/proposals/components/ModalProposalDetail';
 import { IProposalDetail } from '@/stores/slices/proposal/interface';
+import Link from 'next/link';
 import React from 'react';
 
 interface ItemUserProposalProps {
@@ -38,7 +39,9 @@ const ItemUserProposal = ({ proposal }: ItemUserProposalProps) => {
               <TextMuted>{proposal.user?.country}</TextMuted>
             </div>
             <div>
-              <Button title="Chọn" size="sm" className="px-8" />
+              <Link href={`/client/create-contract/proposal/${proposal.id}`}>
+                <Button title="Chọn" size="sm" className="px-8" />
+              </Link>
             </div>
           </div>
           <div className="flex gap-4 justify-between mt-4">

@@ -8,6 +8,12 @@ const factories = {
       url: `user/profile`,
     });
   },
+  getUserById: (id: string) => {
+    return axiosRequest({
+      method: 'get',
+      url: `user/${id}`,
+    });
+  },
   updateProfile: (data: IUpdateProfile) => {
     return axiosRequest({
       method: 'patch',

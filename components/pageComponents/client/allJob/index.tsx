@@ -3,6 +3,7 @@ import JobPosting from './JobPosting';
 import TextLink from '@/components/common/Text/TextLink';
 import TextNormal from '@/components/common/Text/TextNormal';
 import Button from '@/components/common/Button';
+import Link from 'next/link';
 
 const AllJob = () => {
   return (
@@ -15,7 +16,9 @@ const AllJob = () => {
             <TextNormal>Job Postings</TextNormal>
           </div>
           <div className="flex items-center space-x-5">
-            <Button className="rounded-full h-[40px] px-8 font-semibold text-base" title="Post a New Job" />
+            <Link href="/client/create-job">
+              <Button className="rounded-full h-[40px] px-8 font-semibold text-base" title="Post a New Job" />
+            </Link>
           </div>
         </div>
 

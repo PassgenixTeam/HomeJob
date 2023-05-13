@@ -34,24 +34,26 @@ export default function HomeHeader(props: HomeHeaderProps) {
           </Link>
           {(status === 'unauthenticated' || status === 'loading') && (
             <>
-              <Link href="">Find Talent</Link>
-              <Link href="">Find Work</Link>
-              <Link href="">Why Us</Link>
-              <Link href={ROUTER.PAYMENTS}>Payments</Link>
+              <Link href="">Tìm nhà thầu</Link>
+              <Link href="">Tìm công việc</Link>
+              <Link href="">Về chúng tôi</Link>
+              {/* <Link href={ROUTER.PAYMENTS}>Payments</Link> */}
             </>
           )}
           {status === 'authenticated' && session?.user?.role === 'client' ? (
             <>
-              <Link href={`${ROUTER.CLIENT}${ROUTER.MY_JOB}`}>My Jobs</Link>
-              <Link href="">Reports</Link>
-              <Link href={ROUTER.CREATE_JOB}>Create Job</Link>
-              <Link href={ROUTER.PAYMENTS}>Payments</Link>
+              <Link href={`${ROUTER.CLIENT}${ROUTER.MY_JOB}`}>Công việc của tôi</Link>
+              <Link href="">Báo cáo</Link>
+              {/* <Link href={ROUTER.CREATE_JOB}>Create Job</Link> */}
+              {/* <Link href={ROUTER.PAYMENTS}>Payments</Link> */}
+              <Link href={`${ROUTER.CLIENT}${ROUTER.CONTRACT}`}>Hợp đồng</Link>
             </>
           ) : status === 'authenticated' && session?.user?.role === 'freelancer' ? (
             <>
-              <Link href={`${ROUTER.BEST_MATCHES}`}>Find Work</Link>
-              <Link href={`${ROUTER.FREELANCER}${ROUTER.MY_JOB}`}>My Jobs</Link>
-              <Link href={ROUTER.PAYMENTS}>Payments</Link>
+              <Link href={`${ROUTER.BEST_MATCHES}`}>Tìm công việc</Link>
+              <Link href={`${ROUTER.FREELANCER}${ROUTER.MY_JOB}`}>Công việc của tôi</Link>
+              <Link href={`${ROUTER.FREELANCER}${ROUTER.CONTRACT}`}>Hợp đồng</Link>
+              {/* <Link href={ROUTER.PAYMENTS}>Payments</Link> */}
             </>
           ) : (
             <></>
@@ -60,8 +62,8 @@ export default function HomeHeader(props: HomeHeaderProps) {
         <div className="flex  justify-center items-center space-x-6">
           {status === 'unauthenticated' || status === 'loading' ? (
             <>
-              <Link href={ROUTER.LOGIN}>Login</Link>
-              <Link href={ROUTER.REGISTER}>Register For Free</Link>
+              <Link href={ROUTER.LOGIN}>Đăng nhập</Link>
+              <Link href={ROUTER.REGISTER}>Đăng ký</Link>
             </>
           ) : (
             <>
@@ -130,20 +132,20 @@ export default function HomeHeader(props: HomeHeaderProps) {
                     <div className="flex items-center space-x-3">
                       <AiOutlineProfile size={22} />
                       <Link href={ROUTER.PROFILE} className="w-full">
-                        Profile
+                        Hồ sơ
                       </Link>
                     </div>
                     <div className="flex items-center space-x-3">
                       <IoSettingsOutline size={22} />
                       <Link href={ROUTER.SETTING} className="w-full">
-                        Setting
+                        Cài đặt
                       </Link>
                     </div>
                     <div className="hover:cursor-pointer flex items-center space-x-3" onClick={() => handleSignOut()}>
                       <div>
                         <IoIosLogOut size={22} />
                       </div>
-                      <p>Logout</p>
+                      <p>Đăng xuất</p>
                     </div>
                   </div>
                 </div>

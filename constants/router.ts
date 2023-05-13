@@ -4,6 +4,7 @@ export const ROUTER = {
   REGISTER: '/register',
   ALLWORK: '/work',
   MY_JOB: '/my-jobs',
+  CONTRACT: '/contracts',
   REPORT: '/reports',
   MESSAGE: '/messages',
   NOTIFICATION: '/notification',
@@ -13,7 +14,7 @@ export const ROUTER = {
   CREATE_JOB: '/client/create-job',
   PAYMENTS: '/payments',
   BILL: '/bill-earn',
-  CLIENT:'/client',
-  FREELANCER:"/freelancer",
-  BEST_MATCHES:"/best-matches",
+  CLIENT: '/client',
+  FREELANCER: '/freelancer',
+  BEST_MATCHES: '/best-matches',
 };

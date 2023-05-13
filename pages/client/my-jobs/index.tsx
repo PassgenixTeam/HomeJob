@@ -1,14 +1,12 @@
 import HomeLayout from '@/components/layouts/homeLayout';
+import AllJob from '@/components/pageComponents/client/allJob';
 import MyJob from '@/components/pageComponents/myJob';
-import React,{ReactNode} from 'react';
+import React, { ReactNode } from 'react';
 
-export interface  ClientMyJobsPageProps {
-}
+export interface ClientMyJobsPageProps {}
 
-export default function ClientMyJobsPage (props:  ClientMyJobsPageProps) {
-  return (
-    <MyJob />
-  );
+export default function ClientMyJobsPage(props: ClientMyJobsPageProps) {
+  return <AllJob />;
 }
 
 ClientMyJobsPage.getLayout = (page: ReactNode) => {
