@@ -1,25 +1,29 @@
-import Button from '@/components/common/Button';
-import { IUserProfile } from '@/stores/slices/profile/interface';
-import { getProfile, selectProfile } from '@/stores/slices/profile/profileSlice';
-import { IProposalDetail } from '@/stores/slices/proposal/interface';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import proposalApi from '../../../stores/slices/proposal/factories';
-import profileAi from '../../../stores/slices/profile/factories';
-import contractApi from '../../../stores/slices/contract/factories';
-import { toast } from 'react-toastify';
-import Container from '@/components/layouts/Container';
-import ContainerBorder from '@/components/layouts/ContainerBorder';
-import Avatar from '@/components/common/Avatar';
-import H4 from '@/components/common/Text/H4';
-import H1 from '@/components/common/Text/H1';
-import H5 from '@/components/common/Text/H5';
-import TextMuted from '@/components/common/Text/TextMuted';
-import TextArea from '@/components/common/TextArea/TextArea';
-import H6 from '@/components/common/Text/H6';
-import TextNormal from '@/components/common/Text/TextNormal';
+import Button from "@/components/common/Button";
+import { IUserProfile } from "@/stores/slices/profile/interface";
+import { selectProfile } from "@/stores/slices/profile/profileSlice";
+import { IProposalDetail } from "@/stores/slices/proposal/interface";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import React from "react";
+import { useDispatch } from "react-redux";
+import proposalApi from "../../../stores/slices/proposal/factories";
+import profileAi from "../../../stores/slices/profile/factories";
+import contractApi from "../../../stores/slices/contract/factories";
+import { getProfile } from "@/stores/slices/login/loginSlide";
+import { toast } from "react-toastify";
+import Container from "@/components/layouts/Container";
+import ContainerBorder from "@/components/layouts/ContainerBorder";
+import Avatar from "@/components/common/Avatar";
+import H4 from "@/components/common/Text/H4";
+import H1 from "@/components/common/Text/H1";
+import H5 from "@/components/common/Text/H5";
+import TextMuted from "@/components/common/Text/TextMuted";
+import TextArea from "@/components/common/TextArea/TextArea";
+import { useMutation } from "@tanstack/react-query";
+import { oraiCreateJob } from "@/orai/execute";
+import TextNormal from "@/components/common/Text/TextNormal";
+import H6 from "@/components/common/Text/H6";
+import { oraiGetLastJobId } from "@/orai/query";
 
 const CreateContract = () => {
   const router = useRouter();
@@ -30,8 +34,8 @@ const CreateContract = () => {
   const [profileContractor, setProfileContractor] = React.useState<IUserProfile>();
   const [proposal, setProposal] = React.useState<IProposalDetail>();
 
-  const [commitClient, setCommitClient] = React.useState<string>('');
-  const [commitContractor, setCommitContractor] = React.useState<string>('');
+  const [commitClient, setCommitClient] = React.useState<string>("");
+  const [commitContractor, setCommitContractor] = React.useState<string>("");
 
   React.useEffect(() => {
     const getProposal = async () => {
@@ -55,8 +59,35 @@ const CreateContract = () => {
     if (proposal) getProfileContractor();
   }, [proposal]);
 
+  const {
+    mutateAsync: createJob,
+    isLoading: isLoadingCreateJob,
+    data: oraiCreateJobRes,
+  } = useMutation(oraiCreateJob, {
+    onSuccess: () => {
+      toast.success("Đã lưu hợp đồng lên blockchain!");
+    },
+    onError: (error: Error) => {
+      toast.error(error?.message);
+    },
+  });
+
+  const { mutateAsync: getLastJobId } = useMutation(oraiGetLastJobId, {
+    onError: (error: Error) => {
+      toast.error(error?.message);
+    },
+  });
+
   const handleCreateContract = async () => {
     try {
+      toast.info("Đang tạo hợp đồng");
+      const txHash = await createJob({
+        commitment: "<Commitment here>",
+        description: "<Description here>",
+        total_price: "100",
+        worker: "orai1u8m0gp8vqccvs5mdqnf5a8q499k9hqwdsjyal3",
+      });
+      const oraiJobId = await getLastJobId();
       await contractApi.postContract({
         contractorId: profileContractor!.id,
         information: {
@@ -64,10 +95,12 @@ const CreateContract = () => {
           commitContractor,
         },
         jobId: proposal!.jobId,
+        oraiJobId,
+        txHash,
       });
-      toast.success('Create contract successfully!');
+      toast.success("Tạo hợp đồng thành công!");
     } catch (error) {
-      toast.error('Create contract failure!');
+      toast.error("Tạo hợp đồng thất bại!");
     }
   };
 
@@ -123,12 +156,7 @@ const CreateContract = () => {
                 </div>
 
                 <div className="mt-4 pr-4">
-                  <TextArea
-                    disabled={session?.user.role !== 'client'}
-                    className="mt-4"
-                    onChange={(e) => setCommitClient(e.target.value)}
-                    value={commitClient}
-                  />
+                  <TextArea disabled={session?.user.role !== "client"} className="mt-4" onChange={(e) => setCommitClient(e.target.value)} value={commitClient} />
                 </div>
               </div>
               <div className="flex-grow ">
@@ -148,12 +176,7 @@ const CreateContract = () => {
                   </div>
                 </div>
                 <div className="mt-4 pr-4">
-                  <TextArea
-                    disabled={session?.user.role !== 'freelance'}
-                    className="mt-4"
-                    onChange={(e) => setCommitContractor(e.target.value)}
-                    value={proposal?.coverLetter!}
-                  />
+                  <TextArea disabled={session?.user.role !== "freelance"} className="mt-4" onChange={(e) => setCommitContractor(e.target.value)} value={commitContractor} />
                 </div>
               </div>
             </div>

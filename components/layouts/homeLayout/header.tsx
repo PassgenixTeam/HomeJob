@@ -31,22 +31,6 @@ export default function HomeHeader(props: HomeHeaderProps) {
     signOut();
   };
 
-  const {
-    mutateAsync: getSigningClient,
-    isLoading: isLoadingGetSigningClient,
-    data: oraiSigningClient,
-  } = useMutation(oraiGetSigningClient, {
-    onError: (error: Error) => {
-      toast.error(error?.message);
-    },
-  });
-
-  const handleConnectedWallet = () => {
-    getSigningClient()
-      .then(() => toast.success("Kết nối ví thành công"))
-      .catch(() => toast.success("Kết nối ví thất bại"));
-  };
-
   return (
     <div className="w-full h-[70px] z-50 fixed top-0 left-0 shadow-md flex justify-center bg-white">
       <div className="w-full max-w-[1440px] px-8 flex justify-between items-center font-semibold text-[color:var(--primary-8)]">
@@ -95,14 +79,6 @@ export default function HomeHeader(props: HomeHeaderProps) {
               <Link href={ROUTER.CONTACT}>
                 <TbMessageCircle2 size={22} />
               </Link>
-              <Button
-                title={oraiSigningClient ? "Đã kết nối" : "Kết nối ví"}
-                icon={<img src={owalletPng.src} className="w-4 h-4" />}
-                loading={isLoadingGetSigningClient}
-                disabled={Boolean(oraiSigningClient)}
-                variant="outline"
-                onClick={oraiSigningClient ? undefined : handleConnectedWallet}
-              />
               <div
                 className="h-[40px] w-[40px] rounded-[50%] 
               overflow-hidden user-avatar hover:cursor-pointer flex justify-center items-center"

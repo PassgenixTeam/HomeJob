@@ -1,10 +1,12 @@
-import { IJobRespond } from '@/stores/slices/jobs/interface';
-import { IUserProfile } from '@/stores/slices/profile/interface';
+import { IJobRespond } from "@/stores/slices/jobs/interface";
+import { IUserProfile } from "@/stores/slices/profile/interface";
 
 export interface IContractRequest {
   jobId: string;
   contractorId: string;
   information: any;
+  txHash: string;
+  oraiJobId: string;
 }
 
 export interface IContractResponse {
