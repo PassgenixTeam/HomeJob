@@ -1,18 +1,22 @@
-import H1 from '@/components/common/Text/H1';
-import H4 from '@/components/common/Text/H4';
-import Container from '@/components/layouts/Container';
-import ContainerBorder from '@/components/layouts/ContainerBorder';
-import React from 'react';
-import contractApi from '../../../stores/slices/contract/factories';
-import { useRouter } from 'next/router';
-import Avatar from '@/components/common/Avatar';
-import H5 from '@/components/common/Text/H5';
-import TextMuted from '@/components/common/Text/TextMuted';
-import TextArea from '@/components/common/TextArea/TextArea';
-import Button from '@/components/common/Button';
-import { toast } from 'react-toastify';
-import { useSession } from 'next-auth/react';
-import { IContractResponse } from '@/stores/slices/contract/interface';
+import H1 from "@/components/common/Text/H1";
+import H4 from "@/components/common/Text/H4";
+import Container from "@/components/layouts/Container";
+import ContainerBorder from "@/components/layouts/ContainerBorder";
+import React from "react";
+import contractApi from "../../../stores/slices/contract/factories";
+import { useRouter } from "next/router";
+import Avatar from "@/components/common/Avatar";
+import H5 from "@/components/common/Text/H5";
+import TextMuted from "@/components/common/Text/TextMuted";
+import TextArea from "@/components/common/TextArea/TextArea";
+import Button from "@/components/common/Button";
+import { toast } from "react-toastify";
+import { useSession } from "next-auth/react";
+import { IContractResponse } from "@/stores/slices/contract/interface";
+import { useMutation } from "@tanstack/react-query";
+import { oraiAcceptJob } from "@/orai/execute";
+import H6 from "@/components/common/Text/H6";
+import TextNormal from "@/components/common/Text/TextNormal";
 
 const Contract = () => {
   const router = useRouter();
@@ -20,8 +24,8 @@ const Contract = () => {
 
   const [contract, setContract] = React.useState<IContractResponse>();
 
-  const [commitClient, setCommitClient] = React.useState<string>('');
-  const [commitContractor, setCommitContractor] = React.useState<string>('');
+  const [commitClient, setCommitClient] = React.useState<string>("");
+  const [commitContractor, setCommitContractor] = React.useState<string>("");
 
   React.useEffect(() => {
     const fetchContract = async () => {
@@ -31,24 +35,34 @@ const Contract = () => {
         setCommitClient(res.data.information.commitClient);
         setCommitContractor(res.data.information.commitContractor);
       } catch (error) {
-        toast.error('Get contract failure!');
+        toast.error("Get contract failure!");
       }
     };
 
     fetchContract();
   }, []);
 
+  const { mutateAsync: acceptJob } = useMutation(oraiAcceptJob, {
+    onSuccess: () => {
+      toast.success("Đã chấp nhận hợp đồng và lưu lên blockchain!");
+    },
+    onError: (error: Error) => {
+      toast.error(error?.message);
+    },
+  });
+
   const handleContractUpdateContract = async () => {
     try {
+      // const txHash = await acceptJob(contract);
       await contractApi.acceptContract(contract?.id!, {
         information: {
           ...contract?.information,
           commitContractor,
         },
       });
-      toast.success('Create contract successfully!');
+      toast.success("Create contract successfully!");
     } catch (error) {
-      toast.error('Create contract failure!');
+      toast.error("Create contract failure!");
     }
   };
 
@@ -93,12 +107,7 @@ const Contract = () => {
               <div className="flex-grow ">
                 <H5>Cam kết bên khách hàng</H5>
                 <div className="mt-4 pr-4">
-                  <TextArea
-                    disabled={session?.user.role !== 'client'}
-                    className="mt-4"
-                    onChange={(e) => setCommitClient(e.target.value)}
-                    value={commitClient}
-                  />
+                  <TextArea disabled={session?.user.role !== "client"} className="mt-4" onChange={(e) => setCommitClient(e.target.value)} value={commitClient} />
                 </div>
               </div>
               <div className="flex-grow ">
@@ -110,7 +119,7 @@ const Contract = () => {
             </div>
           </div>
         </div>
-        {session?.user.role === 'freelancer' && contract?.status === 'Pending' && (
+        {session?.user.role === "freelancer" && contract?.status === "Pending" && (
           <div className="mt-12 flex justify-end">
             <Button className="!px-10 rounded-full" title="Chấp thuận hợp đồng" onClick={handleContractUpdateContract} />
           </div>

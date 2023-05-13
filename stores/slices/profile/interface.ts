@@ -1,5 +1,5 @@
-import { ISKill } from '@/interfaces';
-import { IUser } from '@/stores/slices/login/interface';
+import { ISKill } from "@/interfaces";
+import { IUser } from "@/stores/slices/login/interface";
 
 export interface IUpdateProfile extends Partial<IUserProfile> {}
 
@@ -9,6 +9,7 @@ export interface IUserProfile extends IUser {
   mappingUserLanguageEntity: any;
   projects: any;
   skills: ISKill[];
+  oraiWallet: string;
 }
 
 export interface ProfileState {
