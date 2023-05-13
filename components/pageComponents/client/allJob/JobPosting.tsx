@@ -61,7 +61,7 @@ const JobPosting = () => {
       {/* card job */}
       <Filter showFilter={showFilter} />
       {myJobs.map((job) => {
-        if (job.status !== 'draft') {
+        if (job.status === 'draft') {
           return <ItemJobDraft job={job} />;
         }
         return <ItemJob job={job} />;

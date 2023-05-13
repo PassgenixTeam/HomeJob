@@ -13,10 +13,17 @@ interface ItemJobDraftProps {
 }
 
 const ItemJobDraft = ({ job }: ItemJobDraftProps) => {
+  const renderJobTitle = () => {
+    if (job.title.length > 20) {
+      return job.title.slice(0, 20) + '...';
+    }
+
+    return job.title;
+  };
   return (
     <div className="w-full border-b py-6 px-8 flex justify-between">
       <div>
-        <H4>{job.title}</H4>
+        <H4 title={job.title}>{renderJobTitle()}</H4>
         <TextMuted>Saved {moment(job.createdAt).fromNow()}</TextMuted>
         <TextNormal className="block mt-3">Draft - Saved {moment(job.updatedAt).format('MMM DD, YYYY')}</TextNormal>
       </div>

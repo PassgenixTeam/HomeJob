@@ -39,15 +39,15 @@ const ModalProposalDetail = ({ id }: ModalProposalDetailProps) => {
     <ContainerBorder className="mt-6 !px-0">
       <div className="flex justify-between items-start h-[140px] px-6 border-b">
         <div className="flex gap-4">
-          <Avatar avatar={proposal?.user.avatarUrl} />
+          <Avatar avatar={proposal?.user?.avatarUrl} />
           <div>
             <H3>
-              {proposal?.user.firstName} {proposal?.user.lastName}
+              {proposal?.user?.firstName} {proposal?.user?.lastName}
             </H3>
             <div className="flex gap-1 items-center mt-2">
               <IoLocationSharp className="inline-block mr-2" />
               <TextMuted>
-                {proposal?.user.city || '_'} , {proposal?.user.country} -
+                {proposal?.user?.city || '_'} , {proposal?.user?.country} -
               </TextMuted>
               <TextMuted>4:24 pm local time</TextMuted>
             </div>
@@ -74,7 +74,7 @@ const ModalProposalDetail = ({ id }: ModalProposalDetailProps) => {
         <TextNormal className="whitespace-pre-wrap">{proposal?.coverLetter}</TextNormal>
         <div className="mt-6">
           <H5>
-            Chat with {proposal?.user.firstName} {proposal?.user.lastName}
+            Chat with {proposal?.user?.firstName} {proposal?.user?.lastName}
           </H5>
           <div className="mt-4">
             <TextArea

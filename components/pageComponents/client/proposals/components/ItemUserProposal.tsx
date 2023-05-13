@@ -2,6 +2,7 @@ import Avatar from '@/components/common/Avatar';
 import Button from '@/components/common/Button';
 import Modal from '@/components/common/Modal';
 import SkillItem from '@/components/common/SkillItem';
+import H5 from '@/components/common/Text/H5';
 import H6 from '@/components/common/Text/H6';
 import TextLink from '@/components/common/Text/TextLink';
 import TextMuted from '@/components/common/Text/TextMuted';
@@ -23,7 +24,7 @@ const ItemUserProposal = ({ proposal }: ItemUserProposalProps) => {
 
   return (
     <>
-      <div className="flex gap-8 border-b p-6" onClick={() => setIsOpen(true)}>
+      <div className="flex gap-8 border-b p-6">
         <div className="flex-shrink-0">
           <Avatar />
         </div>
@@ -31,22 +32,22 @@ const ItemUserProposal = ({ proposal }: ItemUserProposalProps) => {
           <div className="flex justify-between">
             <div>
               <TextLink>
-                {proposal.user.firstName} {proposal.user.lastName}
+                {proposal?.user?.firstName} {proposal.user?.lastName}
               </TextLink>
-              <H6>{proposal.user.title}</H6>
-              <TextMuted>{proposal.user.country}</TextMuted>
+              <H6>{proposal.user?.title}</H6>
+              <TextMuted>{proposal.user?.country}</TextMuted>
             </div>
             <div>
-              <Button title="Hire" size="sm" className="px-8" />
+              <Button title="Chọn" size="sm" className="px-8" />
             </div>
           </div>
           <div className="flex gap-4 justify-between mt-4">
             <div className="flex-grow">
-              <H6>${proposal.bid!.toFixed(2)}</H6>
+              <H5>Giá thầu: {proposal.estimateBudget} Triệu VND</H5>
             </div>
-            <div className="flex-grow">
+            {/* <div className="flex-grow">
               <H6>$0.00 earned</H6>
-            </div>
+            </div> */}
             <div className="flex-grow"></div>
             <div className="flex-grow"></div>
           </div>
@@ -56,13 +57,13 @@ const ItemUserProposal = ({ proposal }: ItemUserProposalProps) => {
               {proposal.coverLetter}
             </TextNormal>
           </div>
-          <div className="mt-4 flex gap-2">
-            {proposal.user.skills.map((skill, index) => (
+          {/* <div className="mt-4 flex gap-2">
+            {proposal.user?.skills.map((skill, index) => (
               <SkillItem key={index}>
                 <TextLink href='"'>{skill.name}</TextLink>
               </SkillItem>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
       <Modal isOpen={isOpen} onClose={closeModal} title="Proposal" size="xl">

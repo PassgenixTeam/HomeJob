@@ -21,12 +21,13 @@ export interface IJobsRequest {
   scopeType?: SCOPE_TYPE;
   experienceLevel?: EXPERIENCE_LEVEL;
   projectLength?: PROJECT_LENGTH;
+  estimate: number;
   budget: number;
-  hourlyTo: number;
-  hourlyFrom: number;
+  hourlyTo?: number;
+  hourlyFrom?: number;
   attachments: string[];
   status?: JOB_STATUS;
-  skills: string[];
+  skills?: string[];
 }
 export interface ISkills {
   name: string;
@@ -44,7 +45,12 @@ export interface IJobRespond extends IModify {
   budget: number;
   hourlyTo: number;
   hourlyFrom: number;
-  attachments: string[];
+  attachments: {
+    url: string;
+    size: number;
+  }[];
   status?: JOB_STATUS;
   skills: { id: string; name: string }[];
+  estimate: number;
+  proposalCount?: string;
 }

@@ -11,18 +11,19 @@ import AdditionalDetail from './additionalDetail';
 import ProposalBanner from './banner';
 import JobDetail from './jobDetail';
 import Terms from './term';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Radio from '@/components/common/Radio';
 import _ from 'lodash';
 import { IoClose } from 'react-icons/io5';
 import Bidding from '@/components/pageComponents/proposal/job/bidding';
+import jobApi from '../../../../stores/slices/jobs/factories';
+
 export interface ProposalJobProps {}
 
 export default function ProposalJob(props: ProposalJobProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const jobInfo = useAppSelector((state) => state.jobs);
-  const { jid: JobId } = router.query;
+
   const initialValues: IApplyJobForm = {
     jobId: router.query.jid as string,
     paidType: PAID_TYPE.MILESTONE,
@@ -43,7 +44,11 @@ export default function ProposalJob(props: ProposalJobProps) {
     showModal: false,
     acceptance: false,
     bidding: 0,
+    estimatedTime: 0,
+    estimatedLabor: 0,
+    estimateBudget: 0,
   };
+
   const handleSubmit = (values: IApplyJobForm) => {
     const { acceptance, showModal, ...data } = values;
     dispatch({
@@ -51,10 +56,11 @@ export default function ProposalJob(props: ProposalJobProps) {
       payload: data,
     });
   };
+
   return (
     <div className="flex justify-center w-full">
       <div className="w-full max-w-[1050px] px-4 space-y-8 text-[color:var(--gray-9)]">
-        <h6 className="px-12 text-3xl font-medium pb-4 pt-6">Submit a Proposal</h6>
+        <h6 className="text-3xl font-medium pb-4 pt-6">Nộp Thông Tin Đấu Thầu</h6>
         <Formik
           enableReinitialize
           initialValues={initialValues}
@@ -65,32 +71,30 @@ export default function ProposalJob(props: ProposalJobProps) {
         >
           {(formikProps) => {
             const { errors, touched, values, setFieldValue, validateForm, setFieldTouched } = formikProps;
-            console.log(values);
+            console.log('errors', errors);
+
             return (
               <Form>
                 <div className="space-y-8">
-                  <ProposalBanner />
+                  {/* <ProposalBanner /> */}
                   <JobDetail />
                   <Terms />
                   <AdditionalDetail />
-                  <Bidding jobId={router.query.jid as string} />
+                  {/* <Bidding jobId={router.query.jid as string} /> */}
                   <div className="flex space-x-6">
                     <Button
-                      title="Send for 6 Connects"
+                      title="Gửi với 6 Coin"
                       className="rounded-full h-fit py-[6px] font-medium"
-                      type="button"
+                      type="submit"
                       onClick={async () => {
                         const err = await validateForm();
                         setFieldTouched('coverLetter');
-                        setFieldTouched('amount');
-                        setFieldTouched('milestones[0].description');
-                        setFieldTouched('milestones[0].amount');
-                        if (_.isEmpty(err)) {
-                          setFieldValue('showModal', true);
-                        }
+                        // setFieldTouched('amount');
+                        // setFieldTouched('milestones[0].description');
+                        // setFieldTouched('milestones[0].amount');
                       }}
                     />
-                    <TextLink>Cancel</TextLink>
+                    <TextLink>Huỷ</TextLink>
                   </div>
                 </div>
                 <div
@@ -144,9 +148,9 @@ export default function ProposalJob(props: ProposalJobProps) {
                         onClick={() => setFieldValue('acceptance', !values.acceptance)}
                       />
                       <div className="flex justify-end space-x-6 pb-3 mt-6">
-                        <TextLink onClick={() => setFieldValue('showModal', false)}>Cancel</TextLink>
+                        <TextLink onClick={() => setFieldValue('showModal', false)}>Huỷ</TextLink>
                         <Button
-                          title="Continue to submit"
+                          title="Tiếp tục để nộp đấu thầu"
                           className="py-[8px] rounded-full font-semibold px-[20px]"
                           disabled={!values.acceptance}
                           type="submit"

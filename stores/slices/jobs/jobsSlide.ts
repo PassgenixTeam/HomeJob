@@ -21,6 +21,7 @@ const initialState: JobState = {
     hourlyFrom: 0,
     attachments: [],
     skills: [],
+    estimate: 0,
   },
   jobs: [],
 };

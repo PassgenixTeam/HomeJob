@@ -1,6 +1,6 @@
-import moment from "moment";
-import * as React from "react";
-import { AiFillCheckCircle, AiFillQuestionCircle } from "react-icons/ai";
+import moment from 'moment';
+import * as React from 'react';
+import { AiFillCheckCircle, AiFillQuestionCircle } from 'react-icons/ai';
 
 export interface AboutClientProps {}
 
@@ -8,10 +8,9 @@ export default function AboutClient(props: AboutClientProps) {
   return (
     <div className="w-[35%] text-[color:var(--gray-10)]">
       <div className="pb-6">
-        <h6 className="font-semibold text-lg pb-3">About the client</h6>
+        <h6 className="font-semibold text-lg pb-3">THông tin khách hàng</h6>
         <div className="flex items-center space-x-3">
           <p>Payment method verified</p>
-          <AiFillCheckCircle size={18} color="#096dd9" />
         </div>
       </div>
       <div className="pb-6">
@@ -29,7 +28,7 @@ export default function AboutClient(props: AboutClientProps) {
             <AiFillQuestionCircle size={18} color="#096dd9" />
           </div>
           <p>1 interview</p>
-          <p >open 1 job</p>
+          <p>open 1 job</p>
         </div>
       </div>
     </div>

@@ -15,27 +15,35 @@ interface ItemJobProps {
 }
 
 const ItemJob = ({ job }: ItemJobProps) => {
+  const renderJobTitle = () => {
+    if (job.title.length > 20) {
+      return job.title.slice(0, 20) + '...';
+    }
+
+    return job.title;
+  };
+
   return (
     <div className="w-full border-b py-6 px-8 flex justify-between">
       <div className="w-1/3">
-        <H4>{job.title}</H4>
+        <H4 title={job.title}>{renderJobTitle()}</H4>
         <TextMuted>Saved {moment(job.createdAt).fromNow()}</TextMuted>
-        <TextNormal className="block mt-3">Public - Saved {moment(job.updatedAt).from('MMM DD, YYYY')}</TextNormal>
+        {/* <TextNormal className="block mt-3">Đã lưu {moment(job.updatedAt).from('MMM DD, YYYY')}</TextNormal> */}
       </div>
 
       <div className="flex flex-grow justify-between w-1/3">
         <div>
-          <H6>4 (4 new)</H6>
-          <TextMuted>Proposals</TextMuted>
+          <H6>{job.proposalCount}</H6>
+          <TextMuted>Đấu thầu</TextMuted>
         </div>
         <div>
           <H6>0</H6>
-          <TextMuted>Messaged</TextMuted>
+          <TextMuted>Tin nhắn</TextMuted>
         </div>
-        <div>
+        {/* <div>
           <H6>0</H6>
           <TextMuted>Hired</TextMuted>
-        </div>
+        </div> */}
       </div>
       <div className="flex items-center gap-6 w-1/3 justify-end">
         <div>

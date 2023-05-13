@@ -16,11 +16,13 @@ export interface IRegister {
 }
 export interface ICreateJobForm {
   title: string;
-  skills: { value: string; label: string }[];
-  scope: IScope;
-  budget: IBudget;
+  skills?: { value: string; label: string }[];
+  scope?: IScope;
+  // budget: IBudget;
+  budget: number;
   describe: string;
   attachFile?: FileList | null;
+  estimate: number;
 }
 export interface IApplyJobForm {
   jobId: string;
@@ -37,17 +39,20 @@ export interface IApplyJobForm {
   acceptance?: boolean;
   bidding?: number;
   user?: IUserProfile;
+  estimateBudget?: number;
+  estimatedTime?: number;
+  estimatedLabor?: number;
 }
-export interface IOfferForm{
-  paymentOption:PAID_OPTION,
-  amount:number,
-  deposit:"all"|"first_milestone",
-  dueDate?:Date,
-  title:string,
-  description:string,
-  attachments:string[];
-  accept:boolean;
-  milestones: IMilestone[]
+export interface IOfferForm {
+  paymentOption: PAID_OPTION;
+  amount: number;
+  deposit: 'all' | 'first_milestone';
+  dueDate?: Date;
+  title: string;
+  description: string;
+  attachments: string[];
+  accept: boolean;
+  milestones: IMilestone[];
 }
 
 export interface IMilestone {
@@ -140,7 +145,6 @@ export enum PAID_OPTION {
   HOUR = 'hour',
   FIXED_PRICE = 'fixed price',
 }
-
 
 export interface ISKill {
   id: string;
