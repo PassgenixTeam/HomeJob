@@ -1,7 +1,7 @@
-import { getSigningClient } from "./helper";
+import { oraiGetSigningClient } from "./helper";
 
 export const oraiGetLastJobId = async (): Promise<string> => {
-  const { signingClient } = await getSigningClient();
+  const { signingClient } = await oraiGetSigningClient();
   const queryRes = await signingClient.queryContractSmart(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!, {
     get_last_job_id: {},
   });
@@ -9,7 +9,7 @@ export const oraiGetLastJobId = async (): Promise<string> => {
 };
 
 export const oraiGetDepositFeePercentId = async (): Promise<string> => {
-  const { signingClient } = await getSigningClient();
+  const { signingClient } = await oraiGetSigningClient();
   const queryRes = await signingClient.queryContractSmart(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!, {
     get_deposit_fee_percent: {},
   });
@@ -17,7 +17,7 @@ export const oraiGetDepositFeePercentId = async (): Promise<string> => {
 };
 
 export const oraiGetJobId = async (jobId: string): Promise<Job> => {
-  const { signingClient } = await getSigningClient();
+  const { signingClient } = await oraiGetSigningClient();
   const queryRes = await signingClient.queryContractSmart(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS!, {
     get_job: {
       job_id: jobId,

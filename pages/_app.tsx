@@ -11,6 +11,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-tooltip/dist/react-tooltip.css";
 import "react-datepicker/dist/react-datepicker.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 // @ts-ignore
 momentDurationFormatSetup(moment);
 
@@ -22,21 +24,15 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppPropsWithLayout) {
+// Create a React Query client
+const queryClient = new QueryClient();
+
+function App({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => page);
 
   return (
-    <>
-      <SessionProvider session={session}>
-        {Component.auth ? (
-          <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
-        ) : (
-          getLayout(<Component {...pageProps} />)
-        )}
-      </SessionProvider>
+    <QueryClientProvider client={queryClient}>
+      <SessionProvider session={session}>{Component.auth ? <Auth>{getLayout(<Component {...pageProps} />)}</Auth> : getLayout(<Component {...pageProps} />)}</SessionProvider>
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -48,7 +44,7 @@ function App({
         draggable={false}
         pauseOnHover={false}
       />
-    </>
+    </QueryClientProvider>
   );
 }
 

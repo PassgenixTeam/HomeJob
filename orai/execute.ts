@@ -1,7 +1,7 @@
-import { getSigningClient } from "./helper";
+import { oraiGetSigningClient } from "./helper";
 
 export const oraiCreateJob = async (jobData: CreateJobData): Promise<string> => {
-  const { signingClient, signer } = await getSigningClient();
+  const { signingClient, signer } = await oraiGetSigningClient();
   const { address: signerAddress } = (await signer!.getAccounts())[0];
   const executeRes = await signingClient.execute(
     signerAddress,
@@ -15,7 +15,7 @@ export const oraiCreateJob = async (jobData: CreateJobData): Promise<string> => 
 };
 
 export const oraiAcceptJob = async (jobId: string): Promise<string> => {
-  const { signingClient, signer } = await getSigningClient();
+  const { signingClient, signer } = await oraiGetSigningClient();
   const { address: signerAddress } = (await signer!.getAccounts())[0];
   const executeRes = await signingClient.execute(
     signerAddress,
