@@ -110,7 +110,7 @@ const CreateContract = () => {
                 <H5>Cam kết bên khách hàng</H5>
                 <div className="mt-4 pr-4">
                   <TextArea
-                    disabled={session?.user.role === 'client'}
+                    disabled={session?.user.role !== 'client'}
                     className="mt-4"
                     onChange={(e) => setCommitClient(e.target.value)}
                     value={commitClient}
@@ -118,10 +118,10 @@ const CreateContract = () => {
                 </div>
               </div>
               <div className="flex-grow ">
-                <H5>Cam kết bên khách hàng</H5>
+                <H5>Cam kết bên chủ thầu</H5>
                 <div className="mt-4 pr-4">
                   <TextArea
-                    disabled={session?.user.role === 'freelance'}
+                    disabled={session?.user.role !== 'freelance'}
                     className="mt-4"
                     onChange={(e) => setCommitContractor(e.target.value)}
                     value={commitContractor}

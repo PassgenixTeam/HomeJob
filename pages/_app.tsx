@@ -1,18 +1,19 @@
-import Auth from "@/components/common/auth";
-import { wrapper } from "@/stores/store";
-import "@/styles/globals.css";
-import moment from "moment";
-import momentDurationFormatSetup from "moment-duration-format";
-import type { NextPage } from "next";
-import { SessionProvider } from "next-auth/react";
-import type { AppProps } from "next/app";
-import type { ReactElement, ReactNode } from "react";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "react-tooltip/dist/react-tooltip.css";
-import "react-datepicker/dist/react-datepicker.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import Auth from '@/components/common/auth';
+import { wrapper } from '@/stores/store';
+import '@/styles/globals.css';
+import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
+import type { NextPage } from 'next';
+import { SessionProvider } from 'next-auth/react';
+import type { AppProps } from 'next/app';
+import { useEffect, type ReactElement, type ReactNode } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import 'react-tooltip/dist/react-tooltip.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import { initEndpoint } from '@eueno/lib-browser';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+const ENDPOINT = 'https://v2-developers.eueno.io/';
 // @ts-ignore
 momentDurationFormatSetup(moment);
 
@@ -24,15 +25,19 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-// Create a React Query client
 const queryClient = new QueryClient();
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppPropsWithLayout) {
   const getLayout = Component.getLayout || ((page) => page);
+  useEffect(() => {
+    initEndpoint(ENDPOINT);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SessionProvider session={session}>{Component.auth ? <Auth>{getLayout(<Component {...pageProps} />)}</Auth> : getLayout(<Component {...pageProps} />)}</SessionProvider>
+      <SessionProvider session={session}>
+        {Component.auth ? <Auth>{getLayout(<Component {...pageProps} />)}</Auth> : getLayout(<Component {...pageProps} />)}
+      </SessionProvider>
       <ToastContainer
         position="top-right"
         autoClose={5000}
