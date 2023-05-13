@@ -59,11 +59,7 @@ const CreateContract = () => {
     if (proposal) getProfileContractor();
   }, [proposal]);
 
-  const {
-    mutateAsync: createJob,
-    isLoading: isLoadingCreateJob,
-    data: oraiCreateJobRes,
-  } = useMutation(oraiCreateJob, {
+  const { mutateAsync: createJob } = useMutation(oraiCreateJob, {
     onSuccess: () => {
       toast.success("Đã lưu hợp đồng lên blockchain!");
     },
@@ -78,9 +74,10 @@ const CreateContract = () => {
     },
   });
 
+  const [isCreatingContract, setIsCreatingContract] = React.useState<boolean>(false);
   const handleCreateContract = async () => {
+    setIsCreatingContract(true);
     try {
-      toast.info("Đang tạo hợp đồng");
       const txHash = await createJob({
         commitment: "<Commitment here>",
         description: "<Description here>",
@@ -99,8 +96,12 @@ const CreateContract = () => {
         txHash,
       });
       toast.success("Tạo hợp đồng thành công!");
+
+      router.push("/client/my-jobs");
     } catch (error) {
       toast.error("Tạo hợp đồng thất bại!");
+    } finally {
+      setIsCreatingContract(false);
     }
   };
 
@@ -183,7 +184,7 @@ const CreateContract = () => {
           </div>
         </div>
         <div className="mt-12 flex justify-end">
-          <Button className="!px-10 rounded-full" title="Tạo hợp đồng" onClick={handleCreateContract} />
+          <Button className="!px-10 rounded-full" title="Tạo hợp đồng" loading={isCreatingContract} onClick={handleCreateContract} />
         </div>
       </ContainerBorder>
     </Container>

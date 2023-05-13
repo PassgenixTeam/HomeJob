@@ -17,7 +17,7 @@ import { TbMessageCircle2 } from "react-icons/tb";
 import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import owalletPng from "@/orai/owallet.png";
+
 export interface HomeHeaderProps {}
 
 export default function HomeHeader(props: HomeHeaderProps) {
