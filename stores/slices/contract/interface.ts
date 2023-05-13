@@ -1,5 +1,6 @@
-import { IJobRespond } from "@/stores/slices/jobs/interface";
-import { IUserProfile } from "@/stores/slices/profile/interface";
+import { IJobRespond } from '@/stores/slices/jobs/interface';
+import { IUserProfile } from '@/stores/slices/profile/interface';
+import { IProposalDetail } from '@/stores/slices/proposal/interface';
 
 export interface IContractRequest {
   jobId: string;
@@ -24,4 +25,5 @@ export interface IContractResponse {
     commitClient?: string;
     commitContractor?: string;
   };
+  proposal: IProposalDetail;
 }
