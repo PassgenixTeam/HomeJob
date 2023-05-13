@@ -1,6 +1,6 @@
 import Button from '@/components/common/Button';
 import { IUserProfile } from '@/stores/slices/profile/interface';
-import { selectProfile } from '@/stores/slices/profile/profileSlice';
+import { getProfile, selectProfile } from '@/stores/slices/profile/profileSlice';
 import { IProposalDetail } from '@/stores/slices/proposal/interface';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -9,7 +9,6 @@ import { useDispatch } from 'react-redux';
 import proposalApi from '../../../stores/slices/proposal/factories';
 import profileAi from '../../../stores/slices/profile/factories';
 import contractApi from '../../../stores/slices/contract/factories';
-import { getProfile } from '@/stores/slices/login/loginSlide';
 import { toast } from 'react-toastify';
 import Container from '@/components/layouts/Container';
 import ContainerBorder from '@/components/layouts/ContainerBorder';
@@ -19,6 +18,8 @@ import H1 from '@/components/common/Text/H1';
 import H5 from '@/components/common/Text/H5';
 import TextMuted from '@/components/common/Text/TextMuted';
 import TextArea from '@/components/common/TextArea/TextArea';
+import H6 from '@/components/common/Text/H6';
+import TextNormal from '@/components/common/Text/TextNormal';
 
 const CreateContract = () => {
   const router = useRouter();
@@ -48,6 +49,7 @@ const CreateContract = () => {
     const getProfileContractor = async () => {
       const res = await profileAi.getUserById(proposal?.user?.id!);
       setProfileContractor(res.data);
+      setCommitClient(proposal?.job.description!);
     };
 
     if (proposal) getProfileContractor();
@@ -59,6 +61,7 @@ const CreateContract = () => {
         contractorId: profileContractor!.id,
         information: {
           commitClient,
+          commitContractor,
         },
         jobId: proposal!.jobId,
       });
@@ -71,7 +74,7 @@ const CreateContract = () => {
   return (
     <Container>
       <ContainerBorder>
-        <div className="w-full flex justify-center">
+        <div className="w-full">
           <H1>Tạo hợp đồng</H1>
         </div>
         <div className="mt-24 px-6 flex gap-12 ">
@@ -108,6 +111,17 @@ const CreateContract = () => {
             <div className="w-full flex gap-3 mt-6">
               <div className="flex-grow ">
                 <H5>Cam kết bên khách hàng</H5>
+                <div className="h-[100px]">
+                  <div className="flex gap-2 my-1 mt-4">
+                    <H6>Thời gian hoàn thành dự kiến</H6>
+                    <TextNormal>{proposal?.job.estimate} Ngày</TextNormal>
+                  </div>
+                  <div className="flex gap-2 my-1">
+                    <H6>Tổng chi phí dự kiến</H6>
+                    <TextNormal>{proposal?.job.budget} Triệu VND</TextNormal>
+                  </div>
+                </div>
+
                 <div className="mt-4 pr-4">
                   <TextArea
                     disabled={session?.user.role !== 'client'}
@@ -119,12 +133,26 @@ const CreateContract = () => {
               </div>
               <div className="flex-grow ">
                 <H5>Cam kết bên chủ thầu</H5>
+                <div className="h-[100px]">
+                  <div className="flex gap-2 my-1 mt-4">
+                    <H6>Thời gian hoàn thành dự kiến</H6>
+                    <TextNormal>{proposal?.estimatedTime} Ngày</TextNormal>
+                  </div>
+                  <div className="flex gap-2 my-1">
+                    <H6>Tổng chi phí dự kiến</H6>
+                    <TextNormal>{proposal?.estimateBudget} Triệu VND</TextNormal>
+                  </div>
+                  <div className="flex gap-2 my-1">
+                    <H6>Số lượng nhân công dự kiến</H6>
+                    <TextNormal>{proposal?.estimatedLabor} Nhân công</TextNormal>
+                  </div>
+                </div>
                 <div className="mt-4 pr-4">
                   <TextArea
                     disabled={session?.user.role !== 'freelance'}
                     className="mt-4"
                     onChange={(e) => setCommitContractor(e.target.value)}
-                    value={commitContractor}
+                    value={proposal?.coverLetter!}
                   />
                 </div>
               </div>

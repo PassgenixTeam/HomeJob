@@ -104,12 +104,7 @@ const Contract = () => {
               <div className="flex-grow ">
                 <H5>Cam kết bên chủ thầu</H5>
                 <div className="mt-4 pr-4">
-                  <TextArea
-                    disabled={session?.user.role !== 'freelancer' || contract?.status !== 'Pending'}
-                    className="mt-4"
-                    onChange={(e) => setCommitContractor(e.target.value)}
-                    value={commitContractor}
-                  />
+                  <TextArea disabled className="mt-4" onChange={(e) => setCommitContractor(e.target.value)} value={commitContractor} />
                 </div>
               </div>
             </div>

@@ -1,4 +1,5 @@
-import { IApplyJobForm, IModify } from "@/interfaces";
+import { IApplyJobForm, IModify } from '@/interfaces';
+import { IJobRespond } from '@/stores/slices/jobs/interface';
 
 export interface ProposalState {
   info: any;
@@ -9,4 +10,5 @@ export interface ProposalState {
 }
 export interface IProposalDetail extends IApplyJobForm, IModify {
   id: string;
+  job: IJobRespond;
 }

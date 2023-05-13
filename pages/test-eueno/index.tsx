@@ -4,13 +4,12 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 const TestEueno = () => {
-  const [token, setToken] = React.useState();
+  const [token, setToken] = React.useState('');
 
   const onLogin = async () => {
     try {
       const account = '0x935164e0917e859496564316aa3d7ebbabd4f4e9';
       const response = await login(account);
-      console.log('LOGIN', response);
       setToken(response?.data?.data.token);
     } catch (error) {
       console.log(error);
