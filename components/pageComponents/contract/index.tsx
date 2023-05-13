@@ -15,6 +15,8 @@ import { useSession } from "next-auth/react";
 import { IContractResponse } from "@/stores/slices/contract/interface";
 import { useMutation } from "@tanstack/react-query";
 import { oraiAcceptJob } from "@/orai/execute";
+import H6 from "@/components/common/Text/H6";
+import TextNormal from "@/components/common/Text/TextNormal";
 
 const Contract = () => {
   const router = useRouter();

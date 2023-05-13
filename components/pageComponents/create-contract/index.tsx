@@ -54,6 +54,7 @@ const CreateContract = () => {
       const res = await profileAi.getUserById(proposal?.user?.id!);
       setProfileContractor(res.data);
       setCommitClient(proposal?.job.description!);
+      setCommitContractor(proposal?.coverLetter!);
     };
 
     if (proposal) getProfileContractor();
