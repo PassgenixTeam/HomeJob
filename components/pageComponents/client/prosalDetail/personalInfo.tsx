@@ -1,9 +1,9 @@
-import * as React from "react";
-import Image from "next/image";
-import TextLink from "@/components/common/Text/TextLink";
-import moment from "moment";
-import { useAppSelector } from "@/stores/hooks";
-import { countryList } from "@/utils/common";
+import * as React from 'react';
+import Image from 'next/image';
+import TextLink from '@/components/common/Text/TextLink';
+import moment from 'moment';
+import { useAppSelector } from '@/stores/hooks';
+import { countryList } from '@/utils/common';
 export interface PersonalInfoBarProps {}
 
 export default function PersonalInfoBar(props: PersonalInfoBarProps) {
@@ -13,8 +13,8 @@ export default function PersonalInfoBar(props: PersonalInfoBarProps) {
       <div className="w-[80px] h-[80px] relative">
         <div className="h-full w-full  rounded-full overflow-hidden">
           <Image
-            src={proposalInfo.detail?proposalInfo.detail.user.avatarUrl:"/images/share_icon_google_hover.png"}
-            alt={proposalInfo.detail?.user.firstName+" "+proposalInfo.detail?.user.lastName}
+            src={proposalInfo.detail ? proposalInfo?.detail?.user?.avatarUrl! : '/images/share_icon_google_hover.png'}
+            alt={proposalInfo.detail?.user?.firstName + ' ' + proposalInfo.detail?.user?.lastName}
             width={80}
             height={80}
           />
@@ -26,7 +26,7 @@ export default function PersonalInfoBar(props: PersonalInfoBarProps) {
       </div>
       <div>
         <TextLink href="/" className="text-[22px]">
-          {proposalInfo.detail?.user.firstName+" "+proposalInfo.detail?.user.lastName}
+          {proposalInfo.detail?.user?.firstName + ' ' + proposalInfo.detail?.user?.lastName}
         </TextLink>
         <div className="flex items-center py-1">
           {/* {Array.from(Array(5), (e, i) => (
@@ -41,11 +41,14 @@ export default function PersonalInfoBar(props: PersonalInfoBarProps) {
               React
             </p>
           ))} */}
-          {proposalInfo.detail?.user.title}
+          {proposalInfo.detail?.user?.title}
         </div>
         <div className="pt-3">
-          <p className="font-medium">{proposalInfo.detail?.user.city||""+" "+countryList.find(item=>item.value===proposalInfo.detail?.user.country)?.label }</p>
-          <span className="text-xs font-medium text-[color:var(--gray-8)]">{moment(new Date()).format("LT")} local time</span>
+          <p className="font-medium">
+            {proposalInfo.detail?.user?.city ||
+              '' + ' ' + countryList.find((item) => item.value === proposalInfo.detail?.user?.country)?.label}
+          </p>
+          <span className="text-xs font-medium text-[color:var(--gray-8)]">{moment(new Date()).format('LT')} local time</span>
         </div>
       </div>
     </div>

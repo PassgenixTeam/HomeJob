@@ -129,8 +129,8 @@ const EditHourlyRate = ({ hourlyRateProfile, onClose }: EditHourlyRateProps) => 
 
           <div className="flex justify-between items-center">
             <div className="flex flex-col">
-              <H6>You'll Receive</H6>
-              <TextSmall>The estimated amount you'll receive after service fees</TextSmall>
+              <H6>You&apos;ll Receive</H6>
+              <TextSmall>The estimated amount you&apos;ll receive after service fees</TextSmall>
             </div>
             <div className="flex items-center gap-2">
               <div className="relative">

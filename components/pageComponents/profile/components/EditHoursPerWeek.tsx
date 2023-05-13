@@ -76,7 +76,7 @@ const EditHoursPerWeek = ({ hoursPerWeekProfile, contractToHireProfile, onClose 
               square
               label={"I'm open to contract-to-hire opportunities"}
             />
-            <TextNormal>This means you'll start with a contract and may later explore a full-time option</TextNormal>
+            <TextNormal>This means you&apos;ll start with a contract and may later explore a full-time option</TextNormal>
           </div>
         </div>
       </div>

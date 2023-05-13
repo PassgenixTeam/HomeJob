@@ -58,7 +58,7 @@ const EditVideoOverview = ({ videoOverviewProfile, onClose }: EditVideoOverviewP
                 });
               }}
             />
-            <TextLink href="#">Does your video meet Upwork's guidelines?</TextLink>
+            <TextLink href="#">Does your video meet Upwork&apos;s guidelines?</TextLink>
           </div>
 
           <div>

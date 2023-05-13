@@ -60,11 +60,11 @@ const JobPosting = () => {
       </div>
       {/* card job */}
       <Filter showFilter={showFilter} />
-      {myJobs.map((job) => {
+      {myJobs.map((job, index) => {
         if (job.status === 'draft') {
-          return <ItemJobDraft job={job} />;
+          return <ItemJobDraft key={index} job={job} />;
         }
-        return <ItemJob job={job} />;
+        return <ItemJob key={index} job={job} />;
       })}
     </div>
   );

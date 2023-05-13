@@ -110,8 +110,8 @@ export default function ProposalJob(props: ProposalJobProps) {
                         </div>
                       </div>
                       <p className="my-6">
-                        You're submitting for a fixed-price project. White the majority of WorFromHome projects are completed successfully,
-                        please keep a few things in mind:
+                        You&apos;re submitting for a fixed-price project. White the majority of WorFromHome projects are completed
+                        successfully, please keep a few things in mind:
                       </p>
                       <div className="space-y-3">
                         <div className="pl-3">

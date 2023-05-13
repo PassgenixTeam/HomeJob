@@ -35,7 +35,7 @@ const EditOverview = ({ overviewProfile, onClose }: EditOverviewProps) => {
       <div className="my-14">
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-1">
-            <TextNormal>Use this space to show clients you have the skills and experience they're looking for.</TextNormal>
+            <TextNormal>Use this space to show clients you have the skills and experience they&apos;re looking for.</TextNormal>
             <ul className="list-disc m-4 mt-8">
               <li>
                 <TextNormal>Describe your strengths and skills</TextNormal>
@@ -44,7 +44,7 @@ const EditOverview = ({ overviewProfile, onClose }: EditOverviewProps) => {
                 <TextNormal>Highlight projects, accomplishments and education</TextNormal>
               </li>
               <li>
-                <TextNormal>Keep it short and make sure it's error-free</TextNormal>
+                <TextNormal>Keep it short and make sure it&apos;s error-free</TextNormal>
               </li>
             </ul>
             <div>

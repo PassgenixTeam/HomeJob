@@ -1,25 +1,24 @@
-import ButtonDatePicker from "@/components/common/ButtonDatePicker";
-import InputField from "@/components/common/InputDateField";
-import InputMoneyField from "@/components/common/InputMoneyField";
-import RadioField from "@/components/common/RadioField";
-import TextLink from "@/components/common/Text/TextLink";
-import { IApplyJobForm, IOfferForm, PAID_OPTION } from "@/interfaces";
-import { useAppSelector } from "@/stores/hooks";
-import { FastField, FieldArray, useFormikContext } from "formik";
-import React, { useState } from "react";
-import ReactDatePicker from "react-datepicker";
-import { AiFillQuestionCircle, AiOutlinePlus } from "react-icons/ai";
-import { FaPen } from "react-icons/fa";
-import { HiChevronDown, HiOutlineClock } from "react-icons/hi";
-import { IoClose } from "react-icons/io5";
-import { MdOutlineSell } from "react-icons/md";
+import ButtonDatePicker from '@/components/common/ButtonDatePicker';
+import InputField from '@/components/common/InputDateField';
+import InputMoneyField from '@/components/common/InputMoneyField';
+import RadioField from '@/components/common/RadioField';
+import TextLink from '@/components/common/Text/TextLink';
+import { IApplyJobForm, IOfferForm, PAID_OPTION } from '@/interfaces';
+import { useAppSelector } from '@/stores/hooks';
+import { FastField, FieldArray, useFormikContext } from 'formik';
+import React, { useState } from 'react';
+import ReactDatePicker from 'react-datepicker';
+import { AiFillQuestionCircle, AiOutlinePlus } from 'react-icons/ai';
+import { FaPen } from 'react-icons/fa';
+import { HiChevronDown, HiOutlineClock } from 'react-icons/hi';
+import { IoClose } from 'react-icons/io5';
+import { MdOutlineSell } from 'react-icons/md';
 
 export interface ContractTermProps {}
 
 export default function ContractTerm(props: ContractTermProps) {
   const proposalInfo = useAppSelector((state) => state.proposal);
-  const { values, errors, touched, setFieldValue } =
-    useFormikContext<IOfferForm>();
+  const { values, errors, touched, setFieldValue } = useFormikContext<IOfferForm>();
   const isShowError = errors.milestones && touched.milestones;
   const [showEditPayOption, setShowEditPayOption] = useState<boolean>(false);
   const [showEditAmount, setShowEditAmount] = useState<boolean>(false);
@@ -41,13 +40,8 @@ export default function ContractTerm(props: ContractTermProps) {
               <div className="flex justify-center items-center space-x-6 my-3">
                 <div
                   className={`w-[260px] transition-all hover:cursor-pointer h-fit rounded-md p-2 border-[2px] 
-              border-[color:var(--primary-7)] ${
-                values.paymentOption === PAID_OPTION.HOUR &&
-                "bg-[color:var(--primary-1)]"
-              }`}
-                  onClick={() =>
-                    setFieldValue("paymentOption", PAID_OPTION.HOUR)
-                  }
+              border-[color:var(--primary-7)] ${values.paymentOption === PAID_OPTION.HOUR && 'bg-[color:var(--primary-1)]'}`}
+                  onClick={() => setFieldValue('paymentOption', PAID_OPTION.HOUR)}
                 >
                   <div className="flex justify-between items-center">
                     <HiOutlineClock size={24} className="ml-4 mt-3" />
@@ -61,23 +55,16 @@ export default function ContractTerm(props: ContractTermProps) {
                     />
                   </div>
                   <div>
-                    <p className="text-2xl font-semibold ml-4 mt-4">
-                      Pay by the hour
-                    </p>
-                    <p className="text-sm text-[color:var(--gray-7)] ml-4 mb-3 mt-2">
-                      Pay for the number of hours worked on a project
-                    </p>
+                    <p className="text-2xl font-semibold ml-4 mt-4">Pay by the hour</p>
+                    <p className="text-sm text-[color:var(--gray-7)] ml-4 mb-3 mt-2">Pay for the number of hours worked on a project</p>
                   </div>
                 </div>
                 <div
                   className={`w-[260px] transition-all hover:cursor-pointer h-fit rounded-md 
               p-2 ${
-                values.paymentOption === PAID_OPTION.FIXED_PRICE &&
-                "bg-[color:var(--primary-1)]"
+                values.paymentOption === PAID_OPTION.FIXED_PRICE && 'bg-[color:var(--primary-1)]'
               } border-[2px] border-[color:var(--primary-7)]`}
-                  onClick={() =>
-                    setFieldValue("paymentOption", PAID_OPTION.FIXED_PRICE)
-                  }
+                  onClick={() => setFieldValue('paymentOption', PAID_OPTION.FIXED_PRICE)}
                 >
                   <div className="flex justify-between items-center">
                     <MdOutlineSell size={22} className="ml-4 mt-3" />
@@ -91,23 +78,15 @@ export default function ContractTerm(props: ContractTermProps) {
                     />
                   </div>
                   <div>
-                    <p className="text-2xl font-semibold ml-4 mt-4">
-                      Pay a fixed price
-                    </p>
-                    <p className="text-sm text-[color:var(--gray-7)] ml-4 mb-3 mt-2">
-                      Pay as project milestones are completed
-                    </p>
+                    <p className="text-2xl font-semibold ml-4 mt-4">Pay a fixed price</p>
+                    <p className="text-sm text-[color:var(--gray-7)] ml-4 mb-3 mt-2">Pay as project milestones are completed</p>
                   </div>
                 </div>
               </div>
             ) : (
               <>
                 <p>Fixed-price</p>
-                <FaPen
-                  size={14}
-                  className="hover:cursor-pointer"
-                  onClick={() => setShowEditPayOption(true)}
-                />
+                <FaPen size={14} className="hover:cursor-pointer" onClick={() => setShowEditPayOption(true)} />
               </>
             )}
           </div>
@@ -127,28 +106,19 @@ export default function ContractTerm(props: ContractTermProps) {
           ) : (
             <div className="flex items-center space-x-2 font-medium py-1">
               <p>${proposalInfo.detail?.amount.toFixed(2)}</p>
-              <FaPen
-                size={14}
-                className="hover:cursor-pointer"
-                onClick={() => setShowEditAmount(true)}
-              />
+              <FaPen size={14} className="hover:cursor-pointer" onClick={() => setShowEditAmount(true)} />
             </div>
           )}
 
           <span className="text-sm text-[color:var(--gray-7)]">
-            This is the price you and{" "}
-            {proposalInfo.detail?.user.firstName +
-              " " +
-              proposalInfo.detail?.user.lastName}{" "}
-            have agreed upon
+            This is the price you and {proposalInfo?.detail?.user?.firstName + ' ' + proposalInfo?.detail?.user?.lastName} have agreed upon
           </span>
         </div>
         <div>
           <div className="py-5">
             <p className="py-2 font-medium">Deposit funds into Escrow</p>
             <span className="py-2 text-sm text-[color:var(--gray-7)]">
-              Escrow a neutral holding place that projects your deposit until
-              work is approved
+              Escrow a neutral holding place that projects your deposit until work is approved
             </span>
           </div>
           <div>
@@ -156,32 +126,31 @@ export default function ContractTerm(props: ContractTermProps) {
               component={RadioField}
               name="deposit"
               value={values.deposit}
-              checked={values.deposit === "all"}
+              checked={values.deposit === 'all'}
               custom
               label={`Deposit $${proposalInfo.detail?.amount} for the whole project`}
               onClick={() => {
-                setFieldValue("deposit", "all");
+                setFieldValue('deposit', 'all');
               }}
             />
             <FastField
               component={RadioField}
               name="deposit"
               value={values.deposit}
-              checked={values.deposit === "first_milestone"}
+              checked={values.deposit === 'first_milestone'}
               custom
               label="Deposit a lesser amount to cover the first milestone"
               onClick={() => {
-                setFieldValue("deposit", "first_milestone");
+                setFieldValue('deposit', 'first_milestone');
               }}
             />
-            {values.deposit === "first_milestone" && (
+            {values.deposit === 'first_milestone' && (
               <>
                 <div className="pb-5 pt-2">
                   <h6 className="font-medium py-2">Project Milestones</h6>
                   <span className="text-sm text-[color:var(--gray-7)]">
-                    Add project milestones and pay in installments as each
-                    milestone is completed to your satisfaction. Due dates will
-                    be set in Coordinated Universal Time (UTC).
+                    Add project milestones and pay in installments as each milestone is completed to your satisfaction. Due dates will be
+                    set in Coordinated Universal Time (UTC).
                   </span>
                 </div>
                 <div className="w-full">
@@ -190,13 +159,8 @@ export default function ContractTerm(props: ContractTermProps) {
                     render={(arrayHelpers) => (
                       <div className="space-y-6 mb-5">
                         {values.milestones?.map((item, index) => (
-                          <div
-                            className="flex items-center w-full space-x-3"
-                            key={index}
-                          >
-                            <span className="mt-6 font-medium">
-                              {index + 1}
-                            </span>
+                          <div className="flex items-center w-full space-x-3" key={index}>
+                            <span className="mt-6 font-medium">{index + 1}</span>
                             <FastField
                               component={InputField}
                               name={`milestones[${index}].description`}
@@ -208,9 +172,7 @@ export default function ContractTerm(props: ContractTermProps) {
                                 isShowError &&
                                 (errors.milestones
                                   ? errors.milestones[index]
-                                    ? Object.keys(
-                                        errors.milestones[index]
-                                      ).indexOf("description") !== -1
+                                    ? Object.keys(errors.milestones[index]).indexOf('description') !== -1
                                       ? //@ts-ignore
                                         errors.milestones[index].description
                                       : false
@@ -229,9 +191,7 @@ export default function ContractTerm(props: ContractTermProps) {
                                 isShowError &&
                                 (errors.milestones
                                   ? errors.milestones[index]
-                                    ? Object.keys(
-                                        errors.milestones[index]
-                                      ).indexOf("amount") !== -1
+                                    ? Object.keys(errors.milestones[index]).indexOf('amount') !== -1
                                       ? //@ts-ignore
                                         errors.milestones[index].amount
                                       : false
@@ -241,14 +201,9 @@ export default function ContractTerm(props: ContractTermProps) {
                             />
                             <div className="basis-1/4">
                               <ReactDatePicker
-                                selected={
-                                  new Date(values.milestones[index].dueDate)
-                                }
+                                selected={new Date(values.milestones[index].dueDate)}
                                 onChange={(date: Date) => {
-                                  setFieldValue(
-                                    `milestones[${index}].dueDate`,
-                                    date
-                                  );
+                                  setFieldValue(`milestones[${index}].dueDate`, date);
                                 }}
                                 dateFormat="yyyy.MM.dd"
                                 title="Due date"
@@ -274,7 +229,7 @@ export default function ContractTerm(props: ContractTermProps) {
                           icon={<AiOutlinePlus size={16} />}
                           onClick={() => {
                             arrayHelpers.push({
-                              description: "",
+                              description: '',
                               dueDate: new Date().toISOString(),
                               amount: 0,
                             });

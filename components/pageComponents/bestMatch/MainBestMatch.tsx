@@ -10,11 +10,11 @@ import clsx from 'clsx';
 import moment from 'moment';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 const MainBestMatch = () => {
   const dispatch = useDispatch();
-  const router = useRouter()
+  const router = useRouter();
   const [activeTab, setActiveTab] = React.useState(0);
 
   const jobs = selectJobs();
@@ -35,9 +35,9 @@ const MainBestMatch = () => {
     }
     return greetingText;
   };
-  const handleSearch = (valueSearch:string)=>{
-    router.push(`/job/search/?q=${valueSearch}`)
-  }
+  const handleSearch = (valueSearch: string) => {
+    router.push(`/job/search/?q=${valueSearch}`);
+  };
 
   return (
     <div className="w-full pr-4">
@@ -49,7 +49,7 @@ const MainBestMatch = () => {
         <img className="absolute right-3 top-3" src="images/send.svg" alt="" height={150} width={150} />
       </ContainerBorder>
       <div className="mt-8">
-        <InputFilter onSearch={(value:string)=>handleSearch(value)}/>
+        <InputFilter onSearch={(value: string) => handleSearch(value)} />
       </div>
       <ContainerBorder className="mt-8 !px-0">
         <H2 className="px-8 mb-4">Jobs you might like</H2>
@@ -76,7 +76,7 @@ const MainBestMatch = () => {
         </div>
         <div className="block">
           <div className="px-8 mb-4">
-            <TextNormal>Browse jobs that match your experience to a client's hiring preferences. Ordered by most relevant.</TextNormal>
+            <TextNormal>Browse jobs that match your experience to a client&apos;s hiring preferences. Ordered by most relevant.</TextNormal>
           </div>
           {jobs.map((job) => (
             <ItemJob key={Math.random()} job={job} />
