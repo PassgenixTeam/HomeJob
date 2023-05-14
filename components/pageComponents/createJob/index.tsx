@@ -1,28 +1,31 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { CreateStep } from './createStep';
-import { FastField, Field, Form, Formik } from 'formik';
-import { EXPERIENCE_LEVEL, ICreateJobForm, JOB_STATUS, PROJECT_LENGTH, SCOPE_TYPE } from '@/interfaces';
-import { CreateJobSchema } from '@/validations/createJobSchema';
-import InputField from '@/components/common/InputField';
-import Button from '@/components/common/Button';
-import SelectField from '@/components/common/SelectField';
-import { chartData, skillList } from '@/utils/common';
-import { BsBookmarkStarFill, BsCurrencyDollar, BsPlus } from 'react-icons/bs';
-import { MdOutlineSell } from 'react-icons/md';
-import { HiOutlineClock } from 'react-icons/hi';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import RadioField from '@/components/common/RadioField';
-import TextareaField from '@/components/common/TextareaField';
-import _ from 'lodash';
-import InputFileField from '@/components/common/InputFileField';
-import { useAppDispatch, useAppSelector } from '@/stores/hooks';
-import { getFileLink, getSkillList, postJobs } from '@/stores/slices/jobs/jobsSlide';
-import { ISkills } from '@/stores/slices/jobs/interface';
-import Loading from '@/components/common/Loading';
-import TextNormal from '@/components/common/Text/TextNormal';
-import H6 from '@/components/common/Text/H6';
-import ContainerBorder from '@/components/layouts/ContainerBorder';
-import Container from '@/components/layouts/Container';
+import React, { useEffect, useRef, useState } from "react";
+import { CreateStep } from "./createStep";
+import { FastField, Field, Form, Formik } from "formik";
+import { EXPERIENCE_LEVEL, ICreateJobForm, JOB_STATUS, PROJECT_LENGTH, SCOPE_TYPE } from "@/interfaces";
+import { CreateJobSchema } from "@/validations/createJobSchema";
+import InputField from "@/components/common/InputField";
+import Button from "@/components/common/Button";
+import SelectField from "@/components/common/SelectField";
+import { chartData, skillList } from "@/utils/common";
+import { BsBookmarkStarFill, BsCurrencyDollar, BsPlus } from "react-icons/bs";
+import { MdOutlineSell } from "react-icons/md";
+import { HiOutlineClock } from "react-icons/hi";
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import RadioField from "@/components/common/RadioField";
+import TextareaField from "@/components/common/TextareaField";
+import _ from "lodash";
+import InputFileField from "@/components/common/InputFileField";
+import { useAppDispatch, useAppSelector } from "@/stores/hooks";
+import { getFileLink, getSkillList, postJobs } from "@/stores/slices/jobs/jobsSlide";
+import { ISkills } from "@/stores/slices/jobs/interface";
+import Loading from "@/components/common/Loading";
+import TextNormal from "@/components/common/Text/TextNormal";
+import H6 from "@/components/common/Text/H6";
+import ContainerBorder from "@/components/layouts/ContainerBorder";
+import Container from "@/components/layouts/Container";
+import { useMutation } from "@tanstack/react-query";
+import { euenoCreateProject, euenoUploadFile } from "@/orai/eueno";
+import { toast } from "react-toastify";
 
 export interface CreateJobProps {}
 
@@ -31,8 +34,25 @@ export default function CreateJob(props: CreateJobProps) {
   const [imageUrl, setImageUrl] = useState<any>([]);
   const dispatch = useAppDispatch();
   const jobsInfo = useAppSelector((state) => state.jobs);
+
+  const {
+    mutateAsync: createProject,
+    isLoading: isLoadingCreateProjects,
+    data: newProjectId,
+  } = useMutation(euenoCreateProject, {
+    onError: (error: Error) => {
+      toast.error(error?.message);
+    },
+  });
+
+  const { mutateAsync: uploadFile, isLoading: isLoadingUploadFile } = useMutation<string, Error, { file: File; projectId: string }>(["EUENOUploadFile"], euenoUploadFile, {
+    onError: (error: Error) => {
+      toast.error(error?.message);
+    },
+  });
+
   const initialValues: ICreateJobForm = {
-    title: '',
+    title: "",
     skills: [],
     scope: {},
     // budget: {
@@ -42,7 +62,7 @@ export default function CreateJob(props: CreateJobProps) {
     //   to: 0,
     // },
     budget: 0,
-    describe: '',
+    describe: "",
     attachFile: null,
     estimate: 0,
   };
@@ -55,20 +75,25 @@ export default function CreateJob(props: CreateJobProps) {
     setStep(stepIndex);
   };
 
-  const handleSubmit = (values: ICreateJobForm) => {
-    const formData = {
-      title: values.title,
-      description: values.describe,
-      attachments: values.attachFile,
-      status: JOB_STATUS.PUBLIC,
-      estimate: values.estimate,
-      budget: values.budget,
-    };
-    dispatch({
-      //@ts-ignore
-      type: postJobs(formData).type,
-      payload: formData,
-    });
+  const handleSubmit = async (values: ICreateJobForm) => {
+    // const formData = {
+    //   title: values.title,
+    //   description: values.describe,
+    //   attachments: values.attachFile,
+    //   status: JOB_STATUS.PUBLIC,
+    //   estimate: values.estimate,
+    //   budget: values.budget,
+    // };
+    // const projectId = await createProject({name: values.title});
+
+    if (values.attachFile) console.log(values.attachFile);
+
+    // await Promise.all(values.attachFile.)
+    // dispatch({
+    //   //@ts-ignore
+    //   type: postJobs(formData).type,
+    //   payload: formData,
+    // });
   };
 
   const handleDraft = (values: ICreateJobForm) => {
@@ -121,20 +146,10 @@ export default function CreateJob(props: CreateJobProps) {
                 return (
                   <Form>
                     <div className="text-[color:var(--primary-10)]">
-                      <p className="font-nomal">
-                        This helps your job post stand out to the right candidates. It&quot;s the first thing they&quot;ll see, so make it
-                        count!
-                      </p>
+                      <p className="font-nomal">This helps your job post stand out to the right candidates. It&quot;s the first thing they&quot;ll see, so make it count!</p>
                       <div className="py-6">
                         <p className="font-medium text-xl pb-2">Write a headline for your job post</p>
-                        <FastField
-                          component={InputField}
-                          name="title"
-                          title=""
-                          placeholder=""
-                          className="mt-4 md:mt-0"
-                          inputClassName="h-[40px] px-2 text-medium"
-                        />
+                        <FastField component={InputField} name="title" title="" placeholder="" className="mt-4 md:mt-0" inputClassName="h-[40px] px-2 text-medium" />
                         <div className="py-2">
                           <p className="font-medium">Example Titles</p>
                           <div className="px-3">
@@ -159,15 +174,7 @@ export default function CreateJob(props: CreateJobProps) {
                       <div className="py-6">
                         <p className="font-medium text-xl pb-2">Sô ngày dự tính hoàn thành công việc</p>
                         <div className="flex gap-4 items-center">
-                          <FastField
-                            inputClassName="text-right px-2 text-medium"
-                            component={InputField}
-                            name="estimate"
-                            value={values.estimate}
-                            type="number"
-                            label=""
-                            custom
-                          />
+                          <FastField inputClassName="text-right px-2 text-medium" component={InputField} name="estimate" value={values.estimate} type="number" label="" custom />
                           <p className="font-medium text-lg pb-2">Ngày</p>
                         </div>
                       </div>
@@ -186,9 +193,7 @@ export default function CreateJob(props: CreateJobProps) {
                         />
                         <p className="font-medium text-lg pb-2">triệu VND</p>
                       </div>
-                      <p className="py-5">
-                        You will have the option to create milestones which divide your project into manageable phases.
-                      </p>
+                      <p className="py-5">You will have the option to create milestones which divide your project into manageable phases.</p>
                     </div>
                     <div className="text-[color:var(--primary-10)]">
                       <div className="py-2">
@@ -214,16 +219,9 @@ export default function CreateJob(props: CreateJobProps) {
                       </div>
                       <div className="py-4">
                         <p className="font-medium text-xl pb-2">Describe your job</p>
-                        <FastField
-                          component={TextareaField}
-                          name="describe"
-                          rows={8}
-                          placeholder="Already have a description? Paste it here!"
-                        />
+                        <FastField component={TextareaField} name="describe" rows={8} placeholder="Already have a description? Paste it here!" />
                         <p className="text-[color:var(--gray-7)] mt-6">Need help?</p>
-                        <p className="font-semibold text-[color:var(--primary-6)] hover:cursor-pointer">
-                          See examples of effective descriptions
-                        </p>
+                        <p className="font-semibold text-[color:var(--primary-6)] hover:cursor-pointer">See examples of effective descriptions</p>
                       </div>
                       <div className="py-4">
                         <FastField
@@ -233,11 +231,11 @@ export default function CreateJob(props: CreateJobProps) {
                           placeholder=""
                           className="mt-4 md:mt-0"
                           inputClassName="px-2"
-                          onChange={(e: FileList) => {
+                          onChange={(filesList: FileList) => {
                             const fileLists = [];
                             //@ts-ignore
-                            for (const file of e) {
-                              if (file.type === 'image/png') {
+                            for (const file of filesList) {
+                              if (file.type === "image/png") {
                                 fileLists.push(URL.createObjectURL(file));
                               }
                             }
@@ -260,12 +258,7 @@ export default function CreateJob(props: CreateJobProps) {
                           variant="outline"
                           onClick={() => handleDraft(values)}
                         />
-                        <Button
-                          title="Public Job Post"
-                          className=" rounded-full px-8"
-                          disabled={!_.isEmpty(errors) || _.isEmpty(touched)}
-                          type="submit"
-                        />
+                        <Button title="Public Job Post" className=" rounded-full px-8" disabled={!_.isEmpty(errors) || _.isEmpty(touched)} type="submit" />
                       </div>
                     </div>
                   </Form>
