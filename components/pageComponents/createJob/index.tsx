@@ -15,6 +15,8 @@ import { FastField, Form, Formik } from "formik";
 import _ from "lodash";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
+import euenoPng from "@/orai/eueno.png";
+import { BsLink } from "react-icons/bs";
 
 export interface CreateJobProps {}
 
@@ -64,25 +66,29 @@ export default function CreateJob(props: CreateJobProps) {
     setStep(stepIndex);
   };
 
+  const [files, setFiles] = useState<File[]>([]);
   const handleSubmit = async (values: ICreateJobForm) => {
-    // const formData = {
-    //   title: values.title,
-    //   description: values.describe,
-    //   attachments: values.attachFile,
-    //   status: JOB_STATUS.PUBLIC,
-    //   estimate: values.estimate,
-    //   budget: values.budget,
-    // };
-    // const projectId = await createProject({name: values.title});
+    let oraiProject: string = "";
+    if (files) {
+      oraiProject = await createProject({ name: values.title });
+      await Promise.all(files.map(async (file) => uploadFile({ file, projectId: oraiProject })));
+    }
 
-    if (values.attachFile) console.log(values.attachFile);
+    const formData = {
+      title: values.title,
+      description: values.describe,
+      attachments: values.attachFile,
+      status: JOB_STATUS.PUBLIC,
+      estimate: values.estimate,
+      budget: values.budget,
+      oraiProject,
+    };
 
-    // await Promise.all(values.attachFile.)
-    // dispatch({
-    //   //@ts-ignore
-    //   type: postJobs(formData).type,
-    //   payload: formData,
-    // });
+    dispatch({
+      //@ts-ignore
+      type: postJobs(formData).type,
+      payload: formData,
+    });
   };
 
   const handleDraft = (values: ICreateJobForm) => {
@@ -188,24 +194,31 @@ export default function CreateJob(props: CreateJobProps) {
                         <FastField component={TextareaField} name="describe" rows={8} placeholder="Already have a description? Paste it here!" />
                       </div>
                       <div className="py-4">
-                        <FastField
-                          component={InputFileField}
-                          name="attachFile"
-                          title=""
-                          placeholder=""
-                          className="mt-4 md:mt-0"
-                          inputClassName="px-2"
-                          onChange={(filesList: FileList) => {
-                            const fileLists = [];
-                            //@ts-ignore
-                            for (const file of filesList) {
-                              if (file.type === "image/png") {
-                                fileLists.push(URL.createObjectURL(file));
+                        <div className="flex items-center gap-4">
+                          <FastField
+                            component={InputFileField}
+                            name="attachFile"
+                            title=""
+                            placeholder=""
+                            className="mt-4 md:mt-0"
+                            inputClassName="px-2"
+                            onChange={(filesList: FileList) => {
+                              const fileLists = [];
+                              //@ts-ignore
+                              for (const file of filesList) {
+                                files.push(file);
+
+                                if (file.type === "image/png") {
+                                  fileLists.push(URL.createObjectURL(file));
+                                }
                               }
-                            }
-                            setImageUrl(fileLists);
-                          }}
-                        />
+                              setFiles([...files]);
+                              setImageUrl(fileLists);
+                            }}
+                          />
+                          <BsLink size={22} />
+                          <img src={euenoPng.src} className="w-8 h-8" />
+                        </div>
                         <div className="flex space-x-3">
                           {imageUrl?.map((item: any, index: number) => (
                             <img key={index} src={item} alt="Work from home" className="w-[100px] h-[100px] object-cover" />
@@ -222,7 +235,13 @@ export default function CreateJob(props: CreateJobProps) {
                           variant="outline"
                           onClick={() => handleDraft(values)}
                         />
-                        <Button title="Đăng tuyển công khai" className=" rounded-full px-8" disabled={!_.isEmpty(errors) || _.isEmpty(touched)} type="submit" />
+                        <Button
+                          title="Đăng tuyển công khai"
+                          className=" rounded-full px-8"
+                          loading={isLoadingCreateProjects || isLoadingUploadFile}
+                          disabled={!_.isEmpty(errors) || _.isEmpty(touched)}
+                          type="submit"
+                        />
                       </div>
                     </div>
                   </Form>

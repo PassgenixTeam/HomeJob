@@ -19,8 +19,7 @@ export interface UploadFileOptions extends UploadOptions {
 }
 
 export const euenoLogin = async (): Promise<string> => {
-  const { account } = await oraiGetSigningClient();
-  const response = await login(account.address);
+  const response = await login(process.env.NEXT_PUBLIC_BACKEND_URL!);
   return response.data.data.token;
 };
 
@@ -49,5 +48,5 @@ export const euenoUploadFile = async ({ file, projectId }: { file: File; project
       toast.info("Đang tải file lên EUENO");
     },
   });
-  return response.data.data.cid;
+  return response.data.data.id;
 };
