@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p $NEXT_PUBLIC_PORT",
+    "start": "next start",
+    "start:prod": "next start -p $NEXT_PUBLIC_PORT",
     "lint": "next lint"
   },
   "dependencies": {
