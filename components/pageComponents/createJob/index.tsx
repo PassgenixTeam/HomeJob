@@ -121,12 +121,8 @@ export default function CreateJob(props: CreateJobProps) {
                 return (
                   <Form>
                     <div className="text-[color:var(--primary-10)]">
-                      <p className="font-nomal">
-                        This helps your job post stand out to the right candidates. It&quot;s the first thing they&quot;ll see, so make it
-                        count!
-                      </p>
                       <div className="py-6">
-                        <p className="font-medium text-xl pb-2">Write a headline for your job post</p>
+                        <p className="font-medium text-xl pb-2">Viết tiêu đề cho bài đăng công việc của bạn</p>
                         <FastField
                           component={InputField}
                           name="title"
@@ -136,26 +132,34 @@ export default function CreateJob(props: CreateJobProps) {
                           inputClassName="h-[40px] px-2 text-medium"
                         />
                         <div className="py-2">
-                          <p className="font-medium">Example Titles</p>
+                          <p className="font-medium">Ví dụ tiêu đề</p>
                           <div className="px-3">
                             <div className="flex items-center">
                               <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                              <p>Build responsive WordPress site with booking/payment functionality</p>
+                              <p>
+                                Tìm kiếm một người có kinh nghiệm trong lĩnh vực xây dựng để giúp xây dựng và hoàn thành các dự án xây dựng
+                              </p>
                             </div>
                             <div className="flex items-center">
                               <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                              <p>Graphic designer needed to design ad creative for multiple campaigns</p>
+                              <p>
+                                Tìm kiếm một kỹ sư xây dựng có kinh nghiệm để giám sát các công trình xây dựng và đảm bảo chất lượng công
+                                việc.
+                              </p>
                             </div>
                             <div className="flex items-center">
                               <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                              <p>Facebook ad specialist needed for product launch</p>
+                              <p>
+                                Tìm kiếm một thợ mộc có kinh nghiệm trong việc sản xuất và lắp đặt các công trình bằng gỗ, bao gồm cửa, sàn,
+                                bậc thang, và các bộ phận khác.
+                              </p>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="text-[color:var(--primary-10)]">
-                      <p className="font-nomal">Consider the size of your project and the time it will take</p>
+                      <p className="font-nomal">Xem xét quy mô dự án của bạn và thời gian cần thiết</p>
                       <div className="py-6">
                         <p className="font-medium text-xl pb-2">Sô ngày dự tính hoàn thành công việc</p>
                         <div className="flex gap-4 items-center">
@@ -186,44 +190,16 @@ export default function CreateJob(props: CreateJobProps) {
                         />
                         <p className="font-medium text-lg pb-2">triệu VND</p>
                       </div>
-                      <p className="py-5">
-                        You will have the option to create milestones which divide your project into manageable phases.
-                      </p>
                     </div>
                     <div className="text-[color:var(--primary-10)]">
-                      <div className="py-2">
-                        <p className="font-medium my-4">Talent are looking for:</p>
-                        <div className="px-3">
-                          <div className="flex items-center">
-                            <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                            <p>Clear expectations about your task or deliverables</p>
-                          </div>
-                          <div className="flex items-center">
-                            <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                            <p>The skills required for your work</p>
-                          </div>
-                          <div className="flex items-center">
-                            <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                            <p>Good communication</p>
-                          </div>
-                          <div className="flex items-center">
-                            <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                            <p>Details about how you or your team like to work</p>
-                          </div>
-                        </div>
-                      </div>
                       <div className="py-4">
-                        <p className="font-medium text-xl pb-2">Describe your job</p>
+                        <p className="font-medium text-xl pb-2">Mô tả công việc</p>
                         <FastField
                           component={TextareaField}
                           name="describe"
                           rows={8}
                           placeholder="Already have a description? Paste it here!"
                         />
-                        <p className="text-[color:var(--gray-7)] mt-6">Need help?</p>
-                        <p className="font-semibold text-[color:var(--primary-6)] hover:cursor-pointer">
-                          See examples of effective descriptions
-                        </p>
                       </div>
                       <div className="py-4">
                         <FastField
@@ -249,11 +225,11 @@ export default function CreateJob(props: CreateJobProps) {
                             <img key={index} src={item} alt="Work from home" className="w-[100px] h-[100px] object-cover" />
                           ))}
                         </div>
-                        <p className="text-[color:var(--gray-7)]">Max file size: 100 MB</p>
+                        <p className="text-[color:var(--gray-7)]">Kích thước tệp tối đa: 100 MB</p>
                       </div>
                       <div className="flex justify-end space-x-6">
                         <Button
-                          title="Draft Job Post"
+                          title="Lưu bản nháp"
                           className=" rounded-full px-8"
                           disabled={!_.isEmpty(errors) || _.isEmpty(touched)}
                           type="button"
@@ -261,7 +237,7 @@ export default function CreateJob(props: CreateJobProps) {
                           onClick={() => handleDraft(values)}
                         />
                         <Button
-                          title="Public Job Post"
+                          title="Đăng tuyển công khai"
                           className=" rounded-full px-8"
                           disabled={!_.isEmpty(errors) || _.isEmpty(touched)}
                           type="submit"
