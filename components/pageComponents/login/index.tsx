@@ -1,31 +1,31 @@
-import Button from "@/components/common/Button";
-import ButtonSocial from "@/components/common/ButtonSocial";
-import Checkbox from "@/components/common/Checkbox";
-import InputCustomField from "@/components/common/InputFieldCustom";
-import Loading from "@/components/common/Loading";
-import { ILogin } from "@/interfaces";
-import { LoginSchema } from "@/validations/loginSchema";
-import { FastField, Form, Formik } from "formik";
-import { signIn, useSession } from "next-auth/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import Button from '@/components/common/Button';
+import ButtonSocial from '@/components/common/ButtonSocial';
+import Checkbox from '@/components/common/Checkbox';
+import InputCustomField from '@/components/common/InputFieldCustom';
+import Loading from '@/components/common/Loading';
+import { ILogin } from '@/interfaces';
+import { LoginSchema } from '@/validations/loginSchema';
+import { FastField, Form, Formik } from 'formik';
+import { signIn, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 export interface LoginProps {}
 
 export default function Login(props: LoginProps) {
   const [rememberLogin, setRememberLogin] = useState<boolean>(false);
-  const [loginError, setLoginError] = useState<string>("");
+  const [loginError, setLoginError] = useState<string>('');
   const [showLoading, setShowLoading] = useState<boolean>(false);
   const router = useRouter();
   const session = useSession();
   const initialValues: ILogin = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   };
   const handleSubmit = (values: ILogin) => {
     setShowLoading(true);
-    signIn("credentials", {
+    signIn('credentials', {
       redirect: false,
       email: values.email,
       password: values.password,
@@ -34,19 +34,19 @@ export default function Login(props: LoginProps) {
         setLoginError(error);
         setShowLoading(false);
       } else {
-        setLoginError("");
+        setLoginError('');
         setShowLoading(false);
       }
     });
   };
   useEffect(() => {
-    session.status === "authenticated" && router.push("/");
+    session.status === 'authenticated' && router.push('/');
   }, [session.status]);
-  useEffect(()=>{
-    if(router.query.error){
-      toast.error(router.query.error)
+  useEffect(() => {
+    if (router.query.error) {
+      toast.error(router.query.error);
     }
-  },[router])
+  }, [router]);
   return (
     <div className="bg-[color:var(--primary-1)] min-h-screen h-full w-full flex justify-center items-center">
       {showLoading && (
@@ -55,11 +55,9 @@ export default function Login(props: LoginProps) {
         </div>
       )}
       <div className="flex flex-col items-center">
-        <h1 className="text-4xl text-[color:var(--primary-5)] font-bold text-center mb-4">
-          Work Market
-        </h1>
+        <h1 className="text-4xl text-[color:var(--primary-5)] font-bold text-center mb-4">HomeJob</h1>
         <div className="w-[380px] bg-white rounded-md px-3 py-6">
-          <p className="text-center font-bold text-xl py-4">Login</p>
+          <p className="text-center font-bold text-xl py-4">Đăng nhập</p>
           <Formik
             enableReinitialize
             initialValues={initialValues}
@@ -78,7 +76,7 @@ export default function Login(props: LoginProps) {
                         <FastField
                           component={InputCustomField}
                           name="email"
-                          title="Email Address"
+                          title="Địa chỉ email"
                           placeholder=""
                           inputClassName="h-[37px]"
                         />
@@ -87,57 +85,47 @@ export default function Login(props: LoginProps) {
                         <FastField
                           component={InputCustomField}
                           name="password"
-                          title="Password"
+                          title="Mật khẩu"
                           placeholder=""
                           className="mt-4 md:mt-0"
                           inputClassName="h-[37px]"
                         />
                       </div>
-                      {loginError && (
-                        <span className="text-[color:var(--red-err)]">
-                          {loginError}
-                        </span>
-                      )}
+                      {loginError && <span className="text-[color:var(--red-err)]">{loginError}</span>}
                     </div>
                     <Button
-                      title="Login"
+                      title="Đăng nhập"
                       className="rounded-[40px] py-[10px] mt-5 mb-3 mx-auto text-lg font-semibold px-[90px]"
                       onClick={() => false}
                       type="submit"
                     />
                     <div>
-                      <div className="flex justify-center mb-3">
+                      {/* <div className="flex justify-center mb-3">
                         <Checkbox
                           label="Save login state (30 days)"
                           checked={rememberLogin}
                           onClick={() => setRememberLogin(!rememberLogin)}
                         />
-                      </div>
+                      </div> */}
                       <div className="text-center text-[color:var(--primary-7)]">
-                        <Link href={"/"}>Did you forget your password?</Link>
+                        <Link href={'/'}>Bạn đã quên mật khẩu của bạn?</Link>
                       </div>
                     </div>
                     <div className="h-[1px] w-full bg-[color:var(--gray-7)] my-6"></div>
                     <div className="px-4">
-                      <p className="font-semibold text-center mb-3">
-                        Login with another account
-                      </p>
+                      <p className="font-semibold text-center mb-3">Đăng nhập bằng tài khoản khác</p>
                       <div className="space-y-2 mb-3">
                         <ButtonSocial
                           imgUrl="/images/share_icon_google_hover.png"
-                          label="Login with Google"
-                          action={() => signIn("google")}
+                          label="Đăng nhập với Google"
+                          action={() => signIn('google')}
                         />
                         <ButtonSocial
                           imgUrl="/images/share_icon_facebook_hover.png"
-                          label="Login with Facebook"
-                          action={() => signIn("facebook")}
+                          label="Đăng nhập với Facebook"
+                          action={() => signIn('facebook')}
                         />
-                        <ButtonSocial
-                          imgUrl="/images/github.png"
-                          label="Login with Gihub"
-                          action={() => signIn("github")}
-                        />
+                        <ButtonSocial imgUrl="/images/github.png" label="Đăng nhập với Gihub" action={() => signIn('github')} />
                       </div>
                     </div>
                   </div>
@@ -147,7 +135,7 @@ export default function Login(props: LoginProps) {
           </Formik>
         </div>
         <Link href="/register" className="text-[color:var(--primary-7)] mt-2">
-          Create a new account
+          Tạo tài khoản
         </Link>
       </div>
     </div>

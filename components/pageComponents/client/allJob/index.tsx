@@ -11,13 +11,13 @@ const AllJob = () => {
       <div className="max-w-[1050px] w-full mt-16">
         <div className="w-full flex justify-between items-center">
           <div className="flex gap-3 items-center">
-            <TextLink href="/my-jobs">My Job</TextLink>
+            <TextLink href="/my-jobs">Công việc của tôi</TextLink>
             <span>/</span>
-            <TextNormal>Job Postings</TextNormal>
+            <TextNormal>Công việc đã đăng</TextNormal>
           </div>
           <div className="flex items-center space-x-5">
             <Link href="/client/create-job">
-              <Button className="rounded-full h-[40px] px-8 font-semibold text-base" title="Post a New Job" />
+              <Button className="rounded-full h-[40px] px-8 font-semibold text-base" title="Tạo mới công việc" />
             </Link>
           </div>
         </div>

@@ -1,30 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
-import { CreateStep } from "./createStep";
-import { FastField, Field, Form, Formik } from "formik";
-import { EXPERIENCE_LEVEL, ICreateJobForm, JOB_STATUS, PROJECT_LENGTH, SCOPE_TYPE } from "@/interfaces";
-import { CreateJobSchema } from "@/validations/createJobSchema";
-import InputField from "@/components/common/InputField";
 import Button from "@/components/common/Button";
-import SelectField from "@/components/common/SelectField";
-import { chartData, skillList } from "@/utils/common";
-import { BsBookmarkStarFill, BsCurrencyDollar, BsPlus } from "react-icons/bs";
-import { MdOutlineSell } from "react-icons/md";
-import { HiOutlineClock } from "react-icons/hi";
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import RadioField from "@/components/common/RadioField";
-import TextareaField from "@/components/common/TextareaField";
-import _ from "lodash";
+import InputField from "@/components/common/InputField";
 import InputFileField from "@/components/common/InputFileField";
-import { useAppDispatch, useAppSelector } from "@/stores/hooks";
-import { getFileLink, getSkillList, postJobs } from "@/stores/slices/jobs/jobsSlide";
-import { ISkills } from "@/stores/slices/jobs/interface";
 import Loading from "@/components/common/Loading";
-import TextNormal from "@/components/common/Text/TextNormal";
-import H6 from "@/components/common/Text/H6";
-import ContainerBorder from "@/components/layouts/ContainerBorder";
+import TextareaField from "@/components/common/TextareaField";
 import Container from "@/components/layouts/Container";
-import { useMutation } from "@tanstack/react-query";
+import ContainerBorder from "@/components/layouts/ContainerBorder";
+import { ICreateJobForm, JOB_STATUS } from "@/interfaces";
 import { euenoCreateProject, euenoUploadFile } from "@/orai/eueno";
+import { useAppDispatch, useAppSelector } from "@/stores/hooks";
+import { postJobs } from "@/stores/slices/jobs/jobsSlide";
+import { CreateJobSchema } from "@/validations/createJobSchema";
+import { useMutation } from "@tanstack/react-query";
+import { FastField, Form, Formik } from "formik";
+import _ from "lodash";
+import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 export interface CreateJobProps {}
@@ -146,31 +135,30 @@ export default function CreateJob(props: CreateJobProps) {
                 return (
                   <Form>
                     <div className="text-[color:var(--primary-10)]">
-                      <p className="font-nomal">This helps your job post stand out to the right candidates. It&quot;s the first thing they&quot;ll see, so make it count!</p>
                       <div className="py-6">
-                        <p className="font-medium text-xl pb-2">Write a headline for your job post</p>
+                        <p className="font-medium text-xl pb-2">Viết tiêu đề cho bài đăng công việc của bạn</p>
                         <FastField component={InputField} name="title" title="" placeholder="" className="mt-4 md:mt-0" inputClassName="h-[40px] px-2 text-medium" />
                         <div className="py-2">
-                          <p className="font-medium">Example Titles</p>
+                          <p className="font-medium">Ví dụ tiêu đề</p>
                           <div className="px-3">
                             <div className="flex items-center">
                               <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                              <p>Build responsive WordPress site with booking/payment functionality</p>
+                              <p>Tìm kiếm một người có kinh nghiệm trong lĩnh vực xây dựng để giúp xây dựng và hoàn thành các dự án xây dựng</p>
                             </div>
                             <div className="flex items-center">
                               <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                              <p>Graphic designer needed to design ad creative for multiple campaigns</p>
+                              <p>Tìm kiếm một kỹ sư xây dựng có kinh nghiệm để giám sát các công trình xây dựng và đảm bảo chất lượng công việc.</p>
                             </div>
                             <div className="flex items-center">
                               <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                              <p>Facebook ad specialist needed for product launch</p>
+                              <p>Tìm kiếm một thợ mộc có kinh nghiệm trong việc sản xuất và lắp đặt các công trình bằng gỗ, bao gồm cửa, sàn, bậc thang, và các bộ phận khác.</p>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="text-[color:var(--primary-10)]">
-                      <p className="font-nomal">Consider the size of your project and the time it will take</p>
+                      <p className="font-nomal">Xem xét quy mô dự án của bạn và thời gian cần thiết</p>
                       <div className="py-6">
                         <p className="font-medium text-xl pb-2">Sô ngày dự tính hoàn thành công việc</p>
                         <div className="flex gap-4 items-center">
@@ -193,35 +181,11 @@ export default function CreateJob(props: CreateJobProps) {
                         />
                         <p className="font-medium text-lg pb-2">triệu VND</p>
                       </div>
-                      <p className="py-5">You will have the option to create milestones which divide your project into manageable phases.</p>
                     </div>
                     <div className="text-[color:var(--primary-10)]">
-                      <div className="py-2">
-                        <p className="font-medium my-4">Talent are looking for:</p>
-                        <div className="px-3">
-                          <div className="flex items-center">
-                            <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                            <p>Clear expectations about your task or deliverables</p>
-                          </div>
-                          <div className="flex items-center">
-                            <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                            <p>The skills required for your work</p>
-                          </div>
-                          <div className="flex items-center">
-                            <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                            <p>Good communication</p>
-                          </div>
-                          <div className="flex items-center">
-                            <div className="h-[4px] w-[4px] rounded-full bg-[color:var(--primary-7)] mr-2"></div>
-                            <p>Details about how you or your team like to work</p>
-                          </div>
-                        </div>
-                      </div>
                       <div className="py-4">
-                        <p className="font-medium text-xl pb-2">Describe your job</p>
+                        <p className="font-medium text-xl pb-2">Mô tả công việc</p>
                         <FastField component={TextareaField} name="describe" rows={8} placeholder="Already have a description? Paste it here!" />
-                        <p className="text-[color:var(--gray-7)] mt-6">Need help?</p>
-                        <p className="font-semibold text-[color:var(--primary-6)] hover:cursor-pointer">See examples of effective descriptions</p>
                       </div>
                       <div className="py-4">
                         <FastField
@@ -247,18 +211,18 @@ export default function CreateJob(props: CreateJobProps) {
                             <img key={index} src={item} alt="Work from home" className="w-[100px] h-[100px] object-cover" />
                           ))}
                         </div>
-                        <p className="text-[color:var(--gray-7)]">Max file size: 100 MB</p>
+                        <p className="text-[color:var(--gray-7)]">Kích thước tệp tối đa: 100 MB</p>
                       </div>
                       <div className="flex justify-end space-x-6">
                         <Button
-                          title="Draft Job Post"
+                          title="Lưu bản nháp"
                           className=" rounded-full px-8"
                           disabled={!_.isEmpty(errors) || _.isEmpty(touched)}
                           type="button"
                           variant="outline"
                           onClick={() => handleDraft(values)}
                         />
-                        <Button title="Public Job Post" className=" rounded-full px-8" disabled={!_.isEmpty(errors) || _.isEmpty(touched)} type="submit" />
+                        <Button title="Đăng tuyển công khai" className=" rounded-full px-8" disabled={!_.isEmpty(errors) || _.isEmpty(touched)} type="submit" />
                       </div>
                     </div>
                   </Form>
