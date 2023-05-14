@@ -9,7 +9,6 @@ import { useDispatch } from "react-redux";
 import proposalApi from "../../../stores/slices/proposal/factories";
 import profileAi from "../../../stores/slices/profile/factories";
 import contractApi from "../../../stores/slices/contract/factories";
-import { getProfile } from "@/stores/slices/login/loginSlide";
 import { toast } from "react-toastify";
 import Container from "@/components/layouts/Container";
 import ContainerBorder from "@/components/layouts/ContainerBorder";
@@ -24,6 +23,7 @@ import { oraiCreateJob } from "@/orai/execute";
 import TextNormal from "@/components/common/Text/TextNormal";
 import H6 from "@/components/common/Text/H6";
 import { oraiGetLastJobId } from "@/orai/query";
+import { getProfile } from "@/stores/slices/profile/profileSlice";
 
 const CreateContract = () => {
   const router = useRouter();
@@ -31,6 +31,8 @@ const CreateContract = () => {
   const { data: session } = useSession();
 
   const profileClient = selectProfile();
+  console.log(profileClient);
+
   const [profileContractor, setProfileContractor] = React.useState<IUserProfile>();
   const [proposal, setProposal] = React.useState<IProposalDetail>();
 
@@ -82,8 +84,8 @@ const CreateContract = () => {
       const txHash = await createJob({
         commitment: "<Commitment here>",
         description: "<Description here>",
-        total_price: "100",
-        worker: "orai1u8m0gp8vqccvs5mdqnf5a8q499k9hqwdsjyal3",
+        total_price: proposal?.estimateBudget!.toString()!,
+        worker: profileContractor?.oraiWallet!,
       });
       const oraiJobId = await getLastJobId();
       await contractApi.postContract({
